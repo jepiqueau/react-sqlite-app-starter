@@ -1,0 +1,7 @@
+{
+  "name": "react-sqlite-app-starter",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
