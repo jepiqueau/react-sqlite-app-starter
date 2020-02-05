@@ -1,14 +1,17 @@
 {
   "name": "react-sqlite-app-starter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
+  "description": "Ionic/React SQLite Application Starter",
+  "author": "Jean Pierre Quéau",
+  "license": "MIT",
   "dependencies": {
     "@capacitor/android": "^1.5.0",
     "@capacitor/core": "1.5.0",
     "@capacitor/ios": "^1.5.0",
-    "@ionic/react": "^4.11.8",
-    "@ionic/react-router": "^4.11.8",
-    "@jeepq/capacitor": "0.0.2-1",
+    "@ionic/react": "^4.11.10",
+    "@ionic/react-router": "^4.11.10",
+    "@jeepq/capacitor": "0.0.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.0.3",
@@ -50,5 +53,12 @@
   "devDependencies": {
     "@capacitor/cli": "1.5.0"
   },
-  "description": "An Ionic project"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jepiqueau/react-sqlite-app-starter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jepiqueau/react-sqlite-app-starter.git/issues"
+  },
+  "homepage": "https://github.com/jepiqueau/react-sqlite-app-starter#readme"
 }
