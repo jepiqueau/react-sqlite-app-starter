@@ -7,11 +7,12 @@ import './Tab2.css';
 
 class Tab2 extends React.Component {
   sqliteService:SQLiteService ;
+  platform: string;
 
   constructor(props:any) {
     super(props);
     this.sqliteService = new SQLiteService();
-
+    this.platform = "";
   }
   /*******************************
    * Component Lifecycle Methods *
@@ -22,6 +23,9 @@ class Tab2 extends React.Component {
     
     // Initialize the CapacitorSQLite plugin
     await this.sqliteService.initializePlugin();
+    this.platform = this.sqliteService.platform.charAt(0).toUpperCase() + 
+    this.sqliteService.platform.slice(1);
+
   }
   async componentDidUpdate() {
     console.log('in componentDidUpdate')
@@ -123,7 +127,7 @@ class Tab2 extends React.Component {
       }
 
     } else {
-      if(this.sqliteService.platform === "web") {
+      if(this.sqliteService.platform === "web" || this.sqliteService.platform === "electron") {
         console.log('CapacitorSQLite Plugin: Not available for Web Platform');
         const testEl = document.querySelector('.web');
         if(testEl) testEl.classList.remove('display');
@@ -634,7 +638,7 @@ class Tab2 extends React.Component {
           </IonList>
           <IonCard class="card-sqlite hidden">
             <p className="web display">
-              SQLite Plugin not available for Web Platform
+              SQLite Plugin not available for {this.platform} Platform
             </p>
             <p className="openDB display">
               Open Database successful
