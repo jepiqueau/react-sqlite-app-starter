@@ -1,6 +1,6 @@
 {
   "name": "react-sqlite-app-starter",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "description": "Ionic/React SQLite Application Starter",
   "homepage": "./",
@@ -12,7 +12,7 @@
     "@capacitor/ios": "^1.5.0",
     "@ionic/react": "5.0.0",
     "@ionic/react-router": "5.0.0",
-    "@jeepq/capacitor": "0.0.3-2",
+    "@jeepq/capacitor": "0.0.3-3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.0.3",
@@ -31,6 +31,7 @@
     "typescript": "3.7.5"
   },
   "scripts": {
+    "update": "npm install --save @jeepq/capacitor@latest",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
