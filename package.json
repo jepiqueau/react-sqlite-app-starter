@@ -1,6 +1,6 @@
 {
   "name": "react-sqlite-app-starter",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": true,
   "description": "Ionic/React SQLite Application Starter",
   "homepage": "./",
@@ -12,7 +12,6 @@
     "@capacitor/ios": "^1.5.1",
     "@ionic/react": "5.0.5",
     "@ionic/react-router": "5.0.5",
-    "@jeepq/capacitor": "0.0.4-1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.0.3",
@@ -22,6 +21,7 @@
     "@types/react-dom": "^16.9.5",
     "@types/react-router": "^5.1.4",
     "@types/react-router-dom": "^4.3.1",
+    "capacitor-sqlite": "^1.5.2-1",
     "ionicons": "^5.0.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
