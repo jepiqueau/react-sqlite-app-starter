@@ -392,6 +392,7 @@ async deleteADatabase(dbName: string): Promise<boolean> {
           }
         ];
         result = await this.sqliteService.executeSet(set);
+        console.log("*** Users ",result.changes.changes)
         if(result.changes.changes !== 5) resolve(false);
         set = [
           { statement:"INSERT INTO messages (userid,title,body) VALUES (?,?,?);",
@@ -405,23 +406,29 @@ async deleteADatabase(dbName: string): Promise<boolean> {
           }
         ]
         result = await this.sqliteService.executeSet(set);
+        console.log("*** Messages " + result.changes.changes)
         if(result.changes.changes !== 3) resolve(false);
         sqlcmd = "SELECT * FROM users;";
         result = await this.sqliteService.query(sqlcmd);
+        console.log("*** Select Users " + result.values.length)
         if(result.values.length !== 4) resolve(false);
         sqlcmd = "SELECT * FROM messages;";
         let result1: any = await this.sqliteService.query(sqlcmd);
+        console.log("*** Select Messages " + result1.values.length)
         if(result1.values.length !== 3) resolve(false);
         // Delete user with id = 1
         sqlcmd = "DELETE FROM users WHERE id = 1;";
         result = await this.sqliteService.run(sqlcmd);
+        console.log("*** Delete Users " + result.changes.changes + " " + result.changes.lastId)
         if(result.changes.changes !== 3) resolve(false);
         sqlcmd = "SELECT * FROM users;";
         result = await this.sqliteService.query(sqlcmd);
+        console.log("*** Select Users after delete " + result.values.length)
 
         if(result.values.length !== 3) resolve(false);
         sqlcmd = "SELECT * FROM messages;";
         result1 = await this.sqliteService.query(sqlcmd);
+        console.log("*** Select Messages after delete " + result1.values.length)
         if(result1.values.length !== 1) resolve(false);
         resolve(true);
       } else {
