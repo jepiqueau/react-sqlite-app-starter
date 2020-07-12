@@ -1,6 +1,6 @@
 {
   "name": "react-sqlite-app-starter",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": true,
   "description": "Ionic/React SQLite Application Starter",
   "homepage": "./",
@@ -21,7 +21,7 @@
     "@types/react-dom": "latest",
     "@types/react-router": "latest",
     "@types/react-router-dom": "latest",
-    "capacitor-sqlite": "^2.2.1-1",
+    "capacitor-sqlite": "^2.2.1-2",
     "ionicons": "^5.0.1",
     "react": "latest",
     "react-dom": "latest",
