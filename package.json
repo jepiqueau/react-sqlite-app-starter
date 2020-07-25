@@ -7,9 +7,10 @@
   "author": "Jean Pierre Quéau",
   "license": "MIT",
   "dependencies": {
-    "@capacitor/android": "^2.2.1",
-    "@capacitor/core": "^2.2.1",
-    "@capacitor/ios": "^2.2.1",
+    "@capacitor-community/sqlite": "^2.3.0-2",
+    "@capacitor/android": "^2.3.0",
+    "@capacitor/core": "^2.3.0",
+    "@capacitor/ios": "^2.3.0",
     "@ionic/react": "latest",
     "@ionic/react-router": "latest",
     "@testing-library/jest-dom": "latest",
@@ -21,7 +22,6 @@
     "@types/react-dom": "latest",
     "@types/react-router": "latest",
     "@types/react-router-dom": "latest",
-    "capacitor-sqlite": "^2.2.1-2",
     "ionicons": "^5.0.1",
     "react": "latest",
     "react-dom": "latest",
@@ -53,7 +53,7 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "^2.2.1"
+    "@capacitor/cli": "^2.3.0"
   },
   "repository": {
     "type": "git",
