@@ -1,13 +1,13 @@
 {
   "name": "react-sqlite-app-starter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Ionic/React SQLite Application Starter",
   "homepage": "./",
   "author": "Jean Pierre Quéau",
   "license": "MIT",
   "dependencies": {
-    "@capacitor-community/sqlite": "^2.3.0-2",
+    "@capacitor-community/sqlite": "^2.3.0",
     "@capacitor/android": "^2.3.0",
     "@capacitor/core": "^2.3.0",
     "@capacitor/ios": "^2.3.0",
