@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from 'react';
+import { Capacitor } from '@capacitor/core';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonList, IonItem, IonLabel } from '@ionic/react';
 import './Tab2.css';
 import { useSQLite } from 'react-sqlite-hook/dist';
@@ -9,6 +10,7 @@ const Tab2: React.FC = () => {
 
   const [log, setLog] = useState<string[]>([]);
   const [start, setStart] = useState(0);
+  const platform = Capacitor.getPlatform();
 
   const startTest = () => {
     setStart(prev => prev + 1); 
@@ -19,7 +21,7 @@ const Tab2: React.FC = () => {
     
   useEffect( () => {
     async function testDatabaseNoEncryption(): Promise<Boolean>  {
-      setLog((log) => log.concat("*** Starting testDatabaseNoEncryption ***\n"));
+      setLog((log) => log.concat("* Starting testDatabaseNoEncryption *\n"));
       let result: any = await openDB("test-sqlite"); 
       if(result.result) {
         setLog((log) => log.concat("Database 'test-sqlite' Opened\n"));
@@ -103,14 +105,16 @@ const Tab2: React.FC = () => {
           setLog((log) => log.concat("Failed to close the database\n"));
           return false;    
         }       
+        setLog((log) => log.concat("* Ending testDatabaseNoEncryption *\n"));     
+        return true;
+      } else {
+        setLog((log) => log.concat("Failed to open the database\n"));
+        return false;    
       }
-      setLog((log) => log.concat("*** Ending testDatabaseNoEncryption ***\n"));
-     
-      return true;
 
     }
     async function testDatabaseExecuteSet(): Promise<Boolean>  {
-      setLog((log:any) => log.concat("*** Starting testDatabaseExecuteSet ***\n"));
+      setLog((log:any) => log.concat("* Starting testDatabaseExecuteSet *\n"));
       let result: any = await openDB("test-executeset"); 
       if(result.result) {
         setLog((log) => log.concat("Database 'test-executeset' Opened\n"));
@@ -171,22 +175,25 @@ const Tab2: React.FC = () => {
           setLog((log) => log.concat("Query4 failed\n"));
           return false;          
         }
+        setLog((log:any) => log.concat("* Ending testDatabaseExecuteSet *\n"));
+        return true;
+      } else {
+        setLog((log) => log.concat("Failed to open the database\n"));
+        return true;  
       }
-      setLog((log:any) => log.concat("*** Ending testDatabaseExecuteSet ***\n"));
-      return true;
     }
     if(start > 0) {
       testDatabaseNoEncryption().then(res => {
         if(res) {
           testDatabaseExecuteSet().then(res => {
             if(res) {
-              setLog((log) => log.concat("*** The set of tests was successful ***\n"));
+              setLog((log) => log.concat("\n* The set of tests was successful *\n"));
             } else {
-              setLog((log) => log.concat("*** The set of tests failed ***\n"));
+              setLog((log) => log.concat("\n* The set of tests failed *\n"));
             }  
           });
         } else {
-          setLog((log) => log.concat("*** The set of tests failed ***\n"));
+          setLog((log) => log.concat("\n* The set of tests failed *\n"));
         }
       });
 
@@ -209,13 +216,16 @@ const Tab2: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonList>
-          <IonItem routerLink="/tab2/details">
-            <IonLabel>
-              <h2>Go to detail</h2>
-            </IonLabel>
-          </IonItem>
           <IonItem>
-            <IonButton onClick={startTest} expand="block">SQLite Test</IonButton>
+            <IonButton onClick={startTest} expand="block">SQLite No Encryption Tests</IonButton>
+          </IonItem>
+          {(platform === 'ios' || platform === 'android') &&
+            <IonItem routerLink="/tab2/encryption">
+              <IonButton expand="block">SQLite Encryption Tests</IonButton>
+            </IonItem>
+          }
+          <IonItem routerLink="/tab2/jsontest">
+            <IonButton expand="block">SQLite Json Tests</IonButton>
           </IonItem>
         </IonList>
         <pre>
