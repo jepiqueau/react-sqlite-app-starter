@@ -1,11 +1,14 @@
 # Ionic/React SQLite App Starter
 
-Ionic/React application demonstrating the use of the ```@capacitor-community/sqlite``` plugin and can be use as an application starter.
+Ionic/React application demonstrating the use of the `@capacitor-community/sqlite` plugin and can be use as an application starter.
 
 
-The ```@capacitor-community/sqlite``` test is accessible in the Tab2 of the Application by clicking on the SQLite test button.
+The `@capacitor-community/sqlite` test is accessible in the Tab2 of the Application by clicking on the SQLite test button.
 
-The application uses a service class as a wrapper to the ```@capacitor-community/sqlite``` plugin 
+The application uses now a React Hook `react-sqlite-hook` to access the `@capacitor-community/sqlite` API. 
+
+- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hook)
+
 
 ## Getting Started
 
@@ -115,210 +118,6 @@ In Android Studio, before building your app,
  - Go to the ```capacitor-community-sqlite/java/com.getcapacitor.community.database.sqlite/cdssUtils```folder,
  - Modify the ```secret``` and ```newsecret```strings in the GlobalSQLite.java file.
 
-### Service Class
-
-A Service Class has been defined as a wrapper to the ```capacitor-sqlite``` plugin.
-
-```tsx
-import { Plugins } from '@capacitor/core';
-import * as CapacitorSQLPlugin from '@capacitor-community/sqlite';
-const { CapacitorSQLite, Device } = Plugins;
-
-class SQLiteService {
-  sqlite: any;
-  isService: boolean;
-  platform: string;
-
-  constructor() {
-    this.isService = false;
-    this.platform = "";
-    this.sqlite = {};
-  }
-
-  /**
-   * Plugin Initialization
-   */
-  async initializePlugin(): Promise<void> {
-    const info = await Device.getInfo();
-    this.platform = info.platform;
-    if (this.platform === "ios" || this.platform === "android") {
-      this.sqlite = CapacitorSQLite;
-      this.isService = true;
-    } else if(this.platform === "electron") {
-      this.sqlite = CapacitorSQLPlugin.CapacitorSQLiteElectron;
-      this.isService = true;
-    } else {
-      this.sqlite = CapacitorSQLPlugin.CapacitorSQLite;
-    }
-    return;
-  }
-  /**
-   * Get Echo 
-   * @param value string 
-   */
-  async getEcho(value:string): Promise<any> {
-    if (this.isService) {
-      return await this.sqlite.echo({value:"Hello from JEEP"});
-    } else {
-      return Promise.resolve("");
-    }
-  }
-  /**
-   * Open a Database
-   * @param dbName string
-   * @param _encrypted boolean optional 
-   * @param _mode string optional
-   */  
-  async openDB(dbName:string,_encrypted?:boolean,_mode?:string): Promise<any> {
-      if(this.isService) {
-      const encrypted:boolean = _encrypted ? _encrypted : false;
-      const mode: string = _mode ? _mode : "no-encryption";
-      return await this.sqlite.open({database:dbName,encrypted:encrypted,mode:mode});
-      } else {
-      return Promise.resolve({result:false});
-      }
-  }
-  /**
-   * Create synchronisation table
-   */
-  async createSyncTable(): Promise<any> {
-    if(this.isService) {
-      return await this.sqlite.createSyncTable();
-    } else {
-      return Promise.resolve({changes:-1,message:"Service not started"});
-    }
-  }
-
-  /**
-   * Execute a set of Raw Statements
-   * @param statements string 
-   */
-  async execute(statements:string): Promise<any> {
-      if(this.isService && statements.length > 0) {
-      return await this.sqlite.execute({statements:statements});
-      } else {
-      return Promise.resolve({changes:0});
-      }
-  }
-    /**
-   * Execute a set of Raw Statements as Array<any>
-   * @param set Array<any> 
-   */
-  async executeSet(set:Array<any>): Promise<any> {
-    if(this.isService && set.length > 0) {
-      return await this.sqlite.executeSet({set:set});
-    } else {
-      return Promise.resolve({changes:-1,message:"Service not started"});
-    }
-  }
-
-  /**
-   * Execute a Single Raw Statement
-   * @param statement string
-   */
-  async run(statement:string,_values?:Array<any>): Promise<any> {
-      if(this.isService && statement.length > 0) {
-      const values: Array<any> = _values ? _values : [];
-      return await this.sqlite.run({statement:statement,values:values});
-      } else {
-      return Promise.resolve({changes:0});
-      }
-  }
-  /**
-   * Query a Single Raw Statement
-   * @param statement string
-   * @param values Array<string> optional
-   */
-  async query(statement:string,_values?:Array<string>): Promise<any> {
-      const values: Array<any> = _values ? _values : [];
-      if(this.isService && statement.length > 0) {
-      return await this.sqlite.query({statement:statement,values:values});
-      } else {
-      return Promise.resolve({values:[]});
-      }
-  } 
-  /**
-   * Close the Database
-   * @param dbName string
-   */
-  async close(dbName:string): Promise<any> {
-      if(this.isService) {
-      return await this.sqlite.close({database:dbName});
-      } else {
-      return Promise.resolve({result:false});
-      }
-  }
-  /**
-   * Check if the Database file exists
-   * @param dbName string
-   */
-  async isDBExists(dbName:string): Promise<any> {
-    if(this.isService) {
-      return await this.sqlite.isDBExists({database:dbName});
-    } else {
-      return Promise.resolve({result:false,message:"Service not started"});
-    }
-  }
-  /**
-   * Delete the Database file
-   * @param dbName string
-   */
-  async deleteDB(dbName:string): Promise<any> {
-      if(this.isService) {
-      return await this.sqlite.deleteDatabase({database:dbName});
-      } else {
-      return Promise.resolve({result:false});
-      }
-  }
-  /**
-   * Check the validity of a JSON Object
-   * @param jsonstring string 
-   */
-  async isJsonValid(jsonstring:string): Promise<any> {
-    if(this.isService ) {
-      console.log('jsonObject ', jsonstring)
-      return await this.sqlite.isJsonValid({jsonstring:jsonstring});
-    } else {
-      return Promise.resolve({result:false,message:"Service not started"});
-    }
-  }
-
-  /**
-   * Import a database From a JSON
-   * @param jsonstring string 
-   */
-  async importFromJson(jsonstring:string): Promise<any> {
-    if(this.isService ) {
-      console.log('jsonObject ', jsonstring)
-      return await this.sqlite.importFromJson({jsonstring:jsonstring});
-    } else {
-      return Promise.resolve({changes:-1,message:"Service not started"});
-    }
-  }
-  /**
-   * Export the given database to a JSON Object
-   * @param dbName 
-   * @param encrypted 
-   * @param mode 
-   */
-  async exportToJson(mode:string): Promise<any> {
-    if(this.isService ) {
-      return await this.sqlite.exportToJson({jsonexportmode:mode});
-    } else {
-      return Promise.resolve({export:{},message:"Service not started"});
-    }    
-  }
-  async setSyncDate(syncDate: string): Promise<any> {
-    if(this.isService ) {
-      return await this.sqlite.setSyncDate({syncdate:syncDate});
-    } else {
-      return Promise.resolve({result:false,message:"Service not started"});
-    }    
-
-  }
-}
-export {SQLiteService};
-```
 
 ## Starting an App from Scratch
 
@@ -344,6 +143,7 @@ Here we choose for the example [mySQLiteApp] [com.example.app]
 
 ```bash
 npm install --save @capacitor-community/sqlite@latest
+npm install --save-dev react-sqlite@latest
 ```
 ### Modify the capacitor.config.json file
 
@@ -352,64 +152,79 @@ Open the capacitor.config.json file in your favorite editor and modify the ```we
 ```json
 "webDir": "build",
 ```
-### Add the Service Class
 
-In your favorite editor create a ```services``` folder under the ```src```folder and create the ```SQLiteService.tsx``` file, input the code as described above
+### Using the Hook 
 
-### Access the Service Class in your App React Components
+```js
+import React, { useState, useEffect} from 'react';
+...
+import { useSQLite } from 'react-sqlite-hook/dist';
+import './Foo.css';
 
-#### Import in your React Component
+const Foo: React.FC = () => {
 
-```ts
-import { SQLiteService } from '../services/SQLiteService';
-```
-
-#### Inject the SQLiteService in your React Component Constructor
-
-```ts
-  sqliteService:SQLiteService ;
-
-  constructor(props:any) {
-    super(props);
-    this.sqliteService = new SQLiteService();
-
-  }
-```
-
-#### Initialize CapacitorSQLite plugin
-
-```ts
-  async componentDidMount() {
+  const {openDB, createSyncTable, close, execute, executeSet, run, query,
+    isDBExists, deleteDB, isJsonValid, importFromJson, exportToJson, setSyncDate} = useSQLite();
     
-    // Initialize the CapacitorSQLite plugin
-    await this.sqliteService.initializePlugin();
-
-    ...
-  }
-```
-
-#### Usage of the CapacitorSQLite plugin in React Component Methods
-
-```ts
-async fooMethod(): Promise<void> {
-    ...
-    if(this.sqliteService.isService) {
-      // open the database
-      let result: any = await this.sqliteService.openDB("foo"); 
+  useEffect( () => {
+    async function testFoo() {
+      let result: any = await openDB("test-foo"); 
       if(result.result) {
-            ...
+        // create table
+        const createTablesNoEncryption: string =  `
+          BEGIN TRANSACTION;
+          CREATE TABLE IF NOT EXISTS users (
+          id INTEGER PRIMARY KEY NOT NULL,
+          email TEXT UNIQUE NOT NULL,
+          name TEXT,
+          company TEXT,
+          size FLOAT,
+          age INTEGER
+          );
+          PRAGMA user_version = 1;
+          COMMIT TRANSACTION;
+        `;
+        result = await execute(createTablesNoEncryption);
+        if(result.changes.changes !== 0 && result.changes.changes !== 1) {
+          return;
+        }
+        // Insert two users with execute method
+        const importTwoUsers: string = `
+          BEGIN TRANSACTION;
+          DELETE FROM users;
+          INSERT INTO users (name,email,age) VALUES ("Whiteley","Whiteley.com",30);
+          INSERT INTO users (name,email,age) VALUES ("Jones","Jones.com",44);
+          COMMIT TRANSACTION;
+        `;        
+        result = await execute(importTwoUsers);
+        if(result.changes.changes !== 2) {
+          return;
+        }
+        // Select all Users
+        result = await query("SELECT * FROM users");
+        if(result.values.length !== 2 ||
+        result.values[0].name !== "Whiteley" || result.values[1].name !== "Jones") {
+          return;
+        }
 
-            ...
+        ...
+
       }
-
-    } else {
-        console.log('CapacitorSQLite Plugin: Initialization Failed');
     }
-    ...
-}
-```
+    testFoo();
 
-When the database is open, use the other methods provided by the Service Class to execute, run, query SQLite raw statements
+  }, [openDB, createSyncTable, close, execute, executeSet, run, query, isDBExists, deleteDB,
+    isJsonValid, importFromJson, exportToJson, setSyncDate]);   
+
+  return (
+
+  ...
+
+  );
+};
+
+export default Foo;
+```
 
 ### Build your App
 
@@ -533,7 +348,7 @@ and then build the application
  npx cap update
  npm run build
  npx cap copy
- npx cap open electron
+ npx cap open @capacitor-community/electron
 ```
 
 The datastores created are under **User/Databases/YOUR_APP_NAME/**
