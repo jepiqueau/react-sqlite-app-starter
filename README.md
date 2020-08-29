@@ -3,7 +3,12 @@
 Ionic/React application demonstrating the use of the `@capacitor-community/sqlite` plugin and can be use as an application starter.
 
 
-The `@capacitor-community/sqlite` test is accessible in the Tab2 of the Application by clicking on the SQLite test button.
+The `@capacitor-community/sqlite` test is accessible in the Tab2 of the Application by clicking on several SQLite test button :
+
+ - SQLite No Encryption Tests
+ - SQLite Encrypted Tests     (iOS && Android only)
+ - SQLite Encryption Tests    (iOS && Android only)
+ - SQLite Json Tests
 
 The application uses now a React Hook `react-sqlite-hook` to access the `@capacitor-community/sqlite` API. 
 
@@ -26,7 +31,7 @@ git remote rm origin
 npm install
 ```
 
- - then go to the building process
+ - then go through the building process
 
 ```bash
 npm run build
@@ -74,25 +79,27 @@ Once Android Studio launches, you can build your app through the standard Androi
 
 #### Resulting Output
 
+it is different for each test but at the end of each test it should ended with
+
 ```
-Open Database successful
-Execute Creation Tables successful
-Execute Insert Users successful
-Execute Insert Messages successful
-Query Two Users successful
-Query Two Messages successful
-Create One User with sqlcmd and values successful
-Create One User with sqlcmd successful
-Query Four Users successful
-Query Users age > 30 successful
-Closing the database was successful
-The test database was successful
-The test to encrypt the database was successful
-The test encrypted database was successful
-The test wrong password was successful
-The test new password was successful
-The test new password database was successful
-The set of tests was successful
+* The set of test was successful *
+```
+or
+```
+* The set of tests failed *
+```
+
+Output example for `SQLite No Encryption Tests`
+
+```
+* Starting testDatabaseNoEncryption *
+ Database 'test-sqlite' Opened
+* Ending testDatabaseNoEncryption *
+* Starting testDatabaseExecuteSet *
+  Database 'test-executeset' Opened
+* Ending testDatabaseExecuteSet *
+
+* The set of test was successful *
 ```
 
 At the end of the test, two databases should have been created and both are encrypted, 

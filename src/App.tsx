@@ -14,6 +14,7 @@ import { apps, flash, send } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
+import EncryptedTests from './pages/EncryptedTests';
 import EncryptionTests from './pages/EncryptionTests';
 import JsonTests from './pages/JsonTests';
 import { DarkModeService } from './services/DarkModeService';
@@ -62,6 +63,7 @@ class App extends React.Component {
             <IonRouterOutlet>
               <Route path="/tab1" component={Tab1} exact={true} />
               <Route path="/tab2" component={Tab2} exact={true} />
+              <Route path="/tab2/encrypted" component={EncryptedTests} />
               <Route path="/tab2/encryption" component={EncryptionTests} />
               <Route path="/tab2/jsontest" component={JsonTests} />
               <Route path="/tab3" component={Tab3} />
