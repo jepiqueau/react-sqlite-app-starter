@@ -54,7 +54,8 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "^2.4.0"
+    "@capacitor/cli": "^2.4.0",
+    "react-sqlite-hook": "0.0.1-beta.1"
   },
   "repository": {
     "type": "git",
