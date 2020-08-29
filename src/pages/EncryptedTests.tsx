@@ -84,8 +84,6 @@ const EncryptedTests: React.FC = () => {
           setLog((log) => log.concat(" Close database 'test-encrypted' failed\n"));
           return false;   
         }
-        // Delete the database
-        await deleteDB("test-encrypted");
         setLog((log) => log.concat("* Ending testChangePassword *\n"));
         return true;
       } else {
@@ -101,8 +99,14 @@ const EncryptedTests: React.FC = () => {
       // open the database
       let result:any = await openDB("test-encrypted",true,"secret"); 
       if(result.result) {
-        setLog((log) => log.concat("* Ending testDatabaseNewPassword *\n"));
-        return true;
+        result = await deleteDB("test-encrypted");
+        if(result.result) {         
+          setLog((log) => log.concat("* Ending testDatabaseNewPassword *\n"));
+          return true;
+        } else {
+          setLog((log) => log.concat(" Failed to delete the database\n"));
+          return false;           
+        }
       } else {
         setLog((log) => log.concat(" Failed to open the database\n"));
         return false;    

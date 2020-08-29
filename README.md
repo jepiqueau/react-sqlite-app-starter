@@ -93,7 +93,7 @@ Output example for `SQLite No Encryption Tests`
 
 ```
 * Starting testDatabaseNoEncryption *
- Database 'test-sqlite' Opened
+  Database 'test-sqlite' Opened
 * Ending testDatabaseNoEncryption *
 * Starting testDatabaseExecuteSet *
   Database 'test-executeset' Opened
@@ -102,14 +102,16 @@ Output example for `SQLite No Encryption Tests`
 * The set of test was successful *
 ```
 
-At the end of the test, two databases should have been created and both are encrypted, 
- - for the first one the secret is ```sqlite secret```
- - for the second one the secret is ```sqlite new secret```
+At the end of the tests if you run all of them, five databases would have been created only one is encrypted, 
 
 ```
+db-from-jsonSQLite.db
+test-executesetSQLite.db
 test-sqliteSQLite.db
-test-encryptedSQLite.db
+twoimportsSQLite.db
+test-encryptionSQLite.db
 ```
+test-encryptedSQLite.db is encrypted with secret: `sqlite secret`
 
 ### Changing the 'secret' and 'new secret'
 
