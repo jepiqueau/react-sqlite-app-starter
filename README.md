@@ -35,9 +35,11 @@ npm install
 
 ```bash
 npm run build
-npx cap update
+npx cap sync
+npx cap sync @capacitor-community/electron
 npm run build
 npx cap copy
+npx cap copy @capacitor-community/electron
 npx cap copy web
 ```
 
@@ -59,6 +61,12 @@ npx cap serve
 you will get the following messages:
 ```
 SQLite Plugin not available for Web Platform
+```
+
+### Building Electron Project
+
+```bash
+npx cap open @capacitor-community/electron
 ```
 
 ### Building Native Project
@@ -323,40 +331,12 @@ Execute the postinstall script
 npm run postinstall
 ```
 Go back in the main folder of your application
-Add a script in the index.html file of your application in the body tag
-
-```html
-<body>
-  <app-root></app-root>
-  <script>
-      try {
-        if (
-          process &&
-          typeof process.versions.electron === 'string' &&
-          process.versions.hasOwnProperty('electron')
-        ) {
-          const sqlite3 = require('sqlite3');
-          const fs = require('fs');
-          const path = require('path');
-          const homeDir = require('os').homedir();
-          window.sqlite3 = sqlite3;
-          window.fs = fs;
-          window.path = path;
-          window.appName = 'YOUR_APP_NAME';
-          window.homeDir = homeDir;
-        }
-      } catch {
-        console.log("process doesn't exists");
-      }
-  </script>
-</body>
-```
 and then build the application
 
 ```bash
- npx cap update
+ npx cap sync @capacitor-community/electron
  npm run build
- npx cap copy
+ npx cap copy @capacitor-community/electron
  npx cap open @capacitor-community/electron
 ```
 
@@ -369,12 +349,14 @@ Follow this process:
 
 ```bash
 npm install --save capacitor-sqlite@latest
-npx cap update
+npx cap sync
+npx cap sync @capacitor-community/electron
 npm run build
 npx cap copy
+npx cap copy @capacitor-community/electron
 npx cap copy web
 npx cap open ios
 npx cap open android
-npx cap open electron
+npx cap open @capacitor-community/electron
 ```
 
