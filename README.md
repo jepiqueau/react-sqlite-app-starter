@@ -196,8 +196,17 @@ const Foo: React.FC = () => {
           name TEXT,
           company TEXT,
           size FLOAT,
-          age INTEGER
+          age INTEGER,
+          last_modified INTEGER DEFAULT (strftime('%s', 'now')),
           );
+          CREATE INDEX IF NOT EXISTS users_index_name ON users (name);
+          CREATE INDEX IF NOT EXISTS users_index_last_modified ON users (last_modified);
+          CREATE TRIGGER IF NOT EXISTS users_trigger_last_modified 
+          AFTER UPDATE ON users
+          FOR EACH ROW WHEN NEW.last_modified <= OLD.last_modified  
+          BEGIN  
+            UPDATE users SET last_modified= (strftime('%s', 'now')) WHERE id=OLD.id;   
+          END;      
           PRAGMA user_version = 1;
           COMMIT TRANSACTION;
         `;

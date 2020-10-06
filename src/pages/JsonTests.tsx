@@ -50,6 +50,7 @@ const JsonTests: React.FC = () => {
       let result:any = await openDB("db-from-json"); 
       if(result.result) {
         let result:any = await exportToJson("full");
+        console.log("result.export " + result.export);
         if (Object.keys(result.export).length === 0) {
           setLog((log) => log.concat("Return Json Object has no keys\n"));
           return false;

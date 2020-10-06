@@ -97,6 +97,7 @@ export const tableTwoImports: any = {
           { column: "id", value: "INTEGER PRIMARY KEY NOT NULL" },
           { column: "name", value: "TEXT" },
           { column: "favourite", value: "INTEGER" },
+          { column:"last_modified", value:"INTEGER"},
         ],
       },
       {
@@ -105,6 +106,7 @@ export const tableTwoImports: any = {
           { column: "id", value: "INTEGER PRIMARY KEY NOT NULL" },
           { column: "name", value: "TEXT" },
           { column: "favourite", value: "INTEGER" },
+          { column:"last_modified", value:"INTEGER"},
         ],
       },
       {
@@ -113,6 +115,7 @@ export const tableTwoImports: any = {
           { column: "id", value: "INTEGER PRIMARY KEY NOT NULL" },
           { column: "name", value: "TEXT" },
           { column: "favourite", value: "INTEGER" },
+          { column:"last_modified", value:"INTEGER"},
         ],
       },
     ],
@@ -125,29 +128,34 @@ export const dataTwoImports: any = {
       {
         name: "areas",
         values: [
-          [1, "Access road", 0],
-          [2, "Accessway", 0],
-          [3, "Air handling system", 0],
+          [1, "Access road", 0, 1590396146],
+          [2, "Accessway", 0, 1590396146],
+          [3, "Air handling system", 0, 1590396146],
         ],
 
       },
       {
         name: "elements",
         values: [
-          [1, "Access door < 3m in height", 0],
-          [2, "Access door > 3m in height", 0],
-          [3, "Air inflitration", 0],
-          [4, "Air ventilation", 0],
+          [1, "Access door < 3m in height", 0, 1590396288],
+          [2, "Access door > 3m in height", 0, 1590396288],
+          [3, "Air inflitration", 0, 1590396288],
+          [4, "Air ventilation", 0, 1590396288],
         ],
       },
       {
         name: "issues",
         values: [
-          [1, "Accumulation of internal moisture", 0],
-          [2, "Backflow prevention device", 0],
-          [3, "Backpressure", 0],
-          [4, "Backsiphonage", 0],
+          [1, "Accumulation of internal moisture", 0, 1590388335],
+          [2, "Backflow prevention device", 0, 1590388335],
+          [3, "Backpressure", 0, 1590388335],
+          [4, "Backsiphonage", 0, 1590388335],
         ],
       },
     ],
 };
+
+/*
+          { column:"last_modified", value:"INTEGER DEFAULT (strftime('%s', 'now'))"},
+
+*/
