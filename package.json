@@ -1,6 +1,6 @@
 {
   "name": "react-sqlite-app-starter",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "private": true,
   "description": "Ionic/React SQLite Application Starter",
   "homepage": "./",
@@ -8,7 +8,6 @@
   "license": "MIT",
   "dependencies": {
     "@capacitor-community/electron": "^1.2.3",
-    "@capacitor-community/sqlite": "^2.4.2-5",
     "@capacitor/android": "^2.4.2",
     "@capacitor/core": "^2.4.2",
     "@capacitor/ios": "^2.4.2",
@@ -28,11 +27,11 @@
     "react-dom": "latest",
     "react-router": "latest",
     "react-router-dom": "latest",
-    "react-scripts": "latest",
+    "react-scripts": "^3.4.4",
     "typescript": "^3.9.6"
   },
   "scripts": {
-    "update": "npm install --save @jeepq/capacitor@latest",
+    "update": "npm install --save @capacitor-community/sqlite@latest --save-dev react-sqlite-hook@latest",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -54,8 +53,9 @@
     ]
   },
   "devDependencies": {
+    "@capacitor-community/sqlite": "^2.4.2-8",
     "@capacitor/cli": "^2.4.2",
-    "react-sqlite-hook": "0.0.2"
+    "react-sqlite-hook": "0.0.4"
   },
   "repository": {
     "type": "git",

@@ -17,6 +17,7 @@ import Tab3 from './pages/Tab3';
 import EncryptedTests from './pages/EncryptedTests';
 import EncryptionTests from './pages/EncryptionTests';
 import JsonTests from './pages/JsonTests';
+import UpgradeVersionTest from './pages/UpgradeVersionTest';
 import { DarkModeService } from './services/DarkModeService';
 
 /* Core CSS required for Ionic components to work properly */
@@ -66,6 +67,7 @@ class App extends React.Component {
               <Route path="/tab2/encrypted" component={EncryptedTests} />
               <Route path="/tab2/encryption" component={EncryptionTests} />
               <Route path="/tab2/jsontest" component={JsonTests} />
+              <Route path="/tab2/upgradeversion" component={UpgradeVersionTest} />
               <Route path="/tab3" component={Tab3} />
               <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
             </IonRouterOutlet>

@@ -3,6 +3,7 @@ import { Images } from './base64images';
 
 export const dataToImport: any = {
     database : "db-from-json",
+    version: 1,
     encrypted : false,
     mode : "full",
     tables :[
@@ -59,6 +60,7 @@ export const dataToImport: any = {
 };
 export const partialImport1: any = {
     database : "db-from-json",
+    version: 1,
     encrypted : false,
     mode : "partial",
     tables :[
@@ -88,6 +90,7 @@ export const partialImport1: any = {
 }; 
 export const tableTwoImports: any = {
     database: "twoimports",
+    version: 1,
     encrypted: false,
     mode: "full",
     tables: [
@@ -122,6 +125,7 @@ export const tableTwoImports: any = {
 }; 
 export const dataTwoImports: any = {
     database: "twoimports",
+    version: 1,
     encrypted: false,
     mode: "partial",
     tables: [

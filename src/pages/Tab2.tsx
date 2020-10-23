@@ -223,6 +223,9 @@ const Tab2: React.FC = () => {
           <IonItem routerLink="/tab2/jsontest">
             <IonButton expand="block">SQLite Json Tests</IonButton>
           </IonItem>
+          <IonItem routerLink="/tab2/upgradeversion">
+            <IonButton expand="block">SQLite Upgrade Version Test</IonButton>
+          </IonItem>
         </IonList>
         <pre>
           <p>{log}</p>
