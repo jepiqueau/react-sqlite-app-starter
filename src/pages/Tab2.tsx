@@ -170,7 +170,7 @@ const Tab2: React.FC = () => {
         return true;
       } else {
         setLog((log) => log.concat(" Failed to open the database\n"));
-        return true;  
+        return false;  
       }
     }
     if(start > 0) {
@@ -225,6 +225,9 @@ const Tab2: React.FC = () => {
           </IonItem>
           <IonItem routerLink="/tab2/upgradeversion">
             <IonButton expand="block">SQLite Upgrade Version Test</IonButton>
+          </IonItem>
+          <IonItem routerLink="/tab2/issue49">
+            <IonButton expand="block">SQLite Test issue49</IonButton>
           </IonItem>
         </IonList>
         <pre>
