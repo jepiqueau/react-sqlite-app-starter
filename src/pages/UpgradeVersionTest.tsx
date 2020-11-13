@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from 'react';
+//import { Capacitor } from '@capacitor/core';
 import { IonBackButton, IonButtons, IonHeader, IonPage, IonToolbar,
          IonTitle, IonContent } from '@ionic/react';
 import { useSQLite } from 'react-sqlite-hook/dist';
@@ -8,9 +9,18 @@ import { schemaVersion1, dataVersion1, schemaVersion2,
 //1234567890123456789012345678901234567890123456789012345678901234567890
 const UpgradeVersionTest: React.FC = () => {
   const [log, setLog] = useState<string[]>([]);
-  const {openDB, createSyncTable, close, execute, executeSet, run,
-    query, isDBExists, deleteDB, isJsonValid, importFromJson,
-    exportToJson, setSyncDate, addUpgradeStatement} = useSQLite();
+/*  const platform = Capacitor.getPlatform();
+
+  let onPermissionsRequest = undefined;
+  if(platform === "android") {
+    onPermissionsRequest = (permissionsGranted: number ) => {
+      console.log(`onPermissionsRequest permissionsGranted : ${permissionsGranted}`);
+    }
+  };
+*/
+  const {openDB, createSyncTable, close, execute, executeSet, run, query,
+    isDBExists, deleteDB, isJsonValid, importFromJson, exportToJson,
+    setSyncDate, addUpgradeStatement} = useSQLite(/*{onPermissionsRequest}*/);
 
     useEffect( () => {
         /**

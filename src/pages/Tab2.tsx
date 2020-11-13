@@ -1,8 +1,9 @@
 import React, { useState, useEffect} from 'react';
 import { Capacitor } from '@capacitor/core';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonList, IonItem, IonLabel } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonList, IonItem } from '@ionic/react';
 import './Tab2.css';
 import { useSQLite } from 'react-sqlite-hook/dist';
+import { usePermissions } from '../Hooks/usePermissions';
 import { createTablesNoEncryption, importTwoUsers, importThreeMessages,
   dropTablesTablesNoEncryption } from '../Utils/utils-db-no-encryption';
 import { createTablesExecuteSet, dropTablesTablesExecuteSet, setArrayUsers, setArrayMessages } from '../Utils/utils-db-execute-set';
@@ -15,9 +16,11 @@ const Tab2: React.FC = () => {
   const startTest = () => {
     setStart(prev => prev + 1); 
   }
-
   const {openDB, createSyncTable, close, execute, executeSet, run, query,
-    isDBExists, deleteDB, isJsonValid, importFromJson, exportToJson, setSyncDate} = useSQLite();
+    isDBExists, deleteDB, isJsonValid, importFromJson, exportToJson,
+    setSyncDate, requestPermissions} = useSQLite(/*{onPermissionsRequest}*/);
+  
+  const isGranted = usePermissions(platform);
     
   useEffect( () => {
     async function testDatabaseNoEncryption(): Promise<Boolean>  {
@@ -174,24 +177,27 @@ const Tab2: React.FC = () => {
       }
     }
     if(start > 0) {
-      testDatabaseNoEncryption().then(res => {
-        if(res) {
-          testDatabaseExecuteSet().then(res => {
+        if(isGranted) {
+          testDatabaseNoEncryption().then(res => {
             if(res) {
-              setLog((log) => log.concat("\n* The set of tests was successful *\n"));
+              testDatabaseExecuteSet().then(res => {
+                if(res) {
+                  setLog((log) => log.concat("\n* The set of tests was successful *\n"));
+                } else {
+                  setLog((log) => log.concat("\n* The set of tests failed *\n"));
+                }  
+              });
             } else {
               setLog((log) => log.concat("\n* The set of tests failed *\n"));
-            }  
+            }
           });
         } else {
           setLog((log) => log.concat("\n* The set of tests failed *\n"));
         }
-      });
-
-
     }
-  }, [openDB, createSyncTable, close, execute, executeSet, run, query, isDBExists, deleteDB,
-    isJsonValid, importFromJson, exportToJson, setSyncDate, start]);   
+  }, [openDB, createSyncTable, close, execute, executeSet, run, query,
+    isDBExists, deleteDB, isJsonValid, importFromJson, exportToJson,
+    setSyncDate, requestPermissions, start, platform, isGranted]);   
 
   return (
     <IonPage>

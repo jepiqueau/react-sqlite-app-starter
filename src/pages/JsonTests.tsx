@@ -1,12 +1,23 @@
 import React, { useState, useEffect} from 'react';
+//import { Capacitor } from '@capacitor/core';
 import { IonBackButton, IonButtons, IonHeader, IonPage, IonToolbar, IonTitle, IonContent } from '@ionic/react';
 import { useSQLite } from 'react-sqlite-hook/dist';
 import { dataToImport, partialImport1, tableTwoImports, dataTwoImports } from '../Utils/utils-import-from-json';
 
 const JsonTests: React.FC = () => {
   const [log, setLog] = useState<string[]>([]);
+/*  const platform = Capacitor.getPlatform();
+
+  let onPermissionsRequest = undefined;
+  if(platform === "android") {
+    onPermissionsRequest = (permissionsGranted: number ) => {
+      console.log(`onPermissionsRequest permissionsGranted : ${permissionsGranted}`);
+    }
+  };
+*/
   const {openDB, createSyncTable, close, execute, executeSet, run, query,
-    isDBExists, deleteDB, isJsonValid, importFromJson, exportToJson, setSyncDate} = useSQLite();
+    isDBExists, deleteDB, isJsonValid, importFromJson, exportToJson,
+    setSyncDate} = useSQLite(/*{onPermissionsRequest}*/);
     
   useEffect( () => {
     async function testImportFromJson(): Promise<Boolean>  {
