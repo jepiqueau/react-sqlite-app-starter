@@ -1,6 +1,4 @@
-// create tables
-export const schemaVersion1: string = `
-BEGIN TRANSACTION;
+export const createSchemaVersion1: string = `
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY NOT NULL,
     email TEXT UNIQUE NOT NULL,
@@ -18,17 +16,15 @@ FOR EACH ROW WHEN NEW.last_modified <= OLD.last_modified
 BEGIN
     UPDATE users SET last_modified= (strftime('%s', 'now')) WHERE id=OLD.id;
 END;
-COMMIT TRANSACTION;
 `;
-export const dataVersion1: string = `
-    BEGIN TRANSACTION;
-    DELETE FROM users;
-    INSERT INTO users (name,email,age) VALUES ("Whiteley","Whiteley.com",30);
-    INSERT INTO users (name,email,age) VALUES ("Jones","Jones.com",44);
-    COMMIT TRANSACTION;
+// Insert some Users
+const row: Array<Array<any>> = [["Whiteley","Whiteley.com",30],["Jones","Jones.com",44]];
+export const twoUsers: string = `
+DELETE FROM users;
+INSERT INTO users (name,email,age) VALUES ("${row[0][0]}","${row[0][1]}",${row[0][2]});
+INSERT INTO users (name,email,age) VALUES ("${row[1][0]}","${row[1][1]}",${row[1][2]});
 `;
-
-export const schemaVersion2: string = `
+export const createSchemaVersion2: string = `
 CREATE TABLE users (
   id INTEGER PRIMARY KEY NOT NULL,
   email TEXT UNIQUE NOT NULL,
@@ -62,8 +58,8 @@ FOR EACH ROW WHEN NEW.last_modified <= OLD.last_modified
 BEGIN
     UPDATE messages SET last_modified= (strftime('%s', 'now')) WHERE id=OLD.id;
 END;
-`
-export const dataVersion2: Array<any> = [
+`;
+export const setArrayVersion2: Array<any> = [
   { statement:"INSERT INTO messages (userid,title,body) VALUES (?,?,?);",
     values:[1,"test message 1","content test message 1"]
   },
@@ -80,4 +76,10 @@ export const dataVersion2: Array<any> = [
     values:["Australia",2]
   },
 
-]
+];
+
+export const userMessages = `
+SELECT users.name,messages.title,messages.body FROM users
+ INNER JOIN messages ON users.id = messages.userid
+ WHERE users.id = ?;
+`;

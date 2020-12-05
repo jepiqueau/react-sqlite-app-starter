@@ -1,20 +1,22 @@
 import { useState, useEffect } from 'react';
-import { useSQLite } from 'react-sqlite-hook/dist';
+import { sqlite } from '../App';
 
-export function usePermissions(platform: string) {
+export function usePermissions() {
   const [isGranted, setIsGranted] = useState(true);
-  const {requestPermissions} = useSQLite();
 
   useEffect(() => {
     async function handlePermission(platform:string) {
         if(platform === "android") {
-            const res = await requestPermissions();
+            const res = await sqlite.requestPermissions();
             if(!res.result) {
               setIsGranted(false);
             }
         }
     }
-    handlePermission(platform);
-  },[requestPermissions,platform]);
+    sqlite.getPlatform().then((ret: { platform: string; })  => {
+      handlePermission(ret.platform);
+
+    });
+  },[]);
   return isGranted;
 }

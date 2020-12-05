@@ -1,6 +1,6 @@
 {
   "name": "react-sqlite-app-starter",
-  "version": "1.1.2",
+  "version": "2.0.0-alpha.1",
   "private": true,
   "description": "Ionic/React SQLite Application Starter",
   "homepage": "./",
@@ -53,9 +53,9 @@
     ]
   },
   "devDependencies": {
-    "@capacitor-community/sqlite": "^2.4.3-1",
+    "@capacitor-community/sqlite": "^2.9.0-alpha.5",
     "@capacitor/cli": "^2.4.4",
-    "react-sqlite-hook": "0.0.7"
+    "react-sqlite-hook": "^1.0.0-alpha.3"
   },
   "repository": {
     "type": "git",

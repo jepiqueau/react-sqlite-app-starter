@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState }  from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
@@ -10,16 +10,12 @@ import {
   IonTabs
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { apps, flash, send } from 'ionicons/icons';
+import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
-import EncryptedTests from './pages/EncryptedTests';
-import EncryptionTests from './pages/EncryptionTests';
-import JsonTests from './pages/JsonTests';
-import UpgradeVersionTest from './pages/UpgradeVersionTest';
-import Issue49Tests from './pages/Issue49Tests';
-import { DarkModeService } from './services/DarkModeService';
+//import { useSQLite } from './Hooks/useSQLite';
+import { useSQLite } from 'react-sqlite-hook/dist';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -41,56 +37,55 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 
-class App extends React.Component {
+export let sqlite: any;
+export let existingConn: any;
+export const SQLiteContext = React.createContext({}); //Initialise
 
-  constructor(props:any) {
-    super(props);
-
-    const dMService: DarkModeService = new DarkModeService ();
-    const prefersDark: MediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
-    dMService.enableDarkTheme(prefersDark.matches);
-    prefersDark.addListener(mediaQuery => dMService.enableDarkTheme(mediaQuery.matches));
-  }
-
-  /**
-   * Render
-   */
-  render() {   
-
-    return (
-
-      <IonApp>
-        <IonReactRouter>
-          <IonTabs>
-            <IonRouterOutlet>
-              <Route path="/tab1" component={Tab1} exact={true} />
-              <Route path="/tab2" component={Tab2} exact={true} />
-              <Route path="/tab2/encrypted" component={EncryptedTests} />
-              <Route path="/tab2/encryption" component={EncryptionTests} />
-              <Route path="/tab2/jsontest" component={JsonTests} />
-              <Route path="/tab2/upgradeversion" component={UpgradeVersionTest} />
-              <Route path="/tab2/issue49" component={Issue49Tests} />
-              <Route path="/tab3" component={Tab3} />
-              <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
-            </IonRouterOutlet>
-            <IonTabBar slot="bottom">
-              <IonTabButton tab="tab1" href="/tab1">
-                <IonIcon icon={flash} />
-                <IonLabel>Tab One</IonLabel>
-              </IonTabButton>
-              <IonTabButton tab="tab2" href="/tab2">
-                <IonIcon icon={apps} />
-                <IonLabel>Tab Two</IonLabel>
-              </IonTabButton>
-              <IonTabButton tab="tab3" href="/tab3">
-                <IonIcon icon={send} />
-                <IonLabel>Tab Three</IonLabel>
-              </IonTabButton>
-            </IonTabBar>
-          </IonTabs>
-        </IonReactRouter>
-      </IonApp>
-    );
+const App: React.FC = () => {
+  const [existConn, setExistConn] = useState(false);
+  existingConn = {existConn: existConn, setExistConn: setExistConn};
+  const {echo, getPlatform, createConnection, closeConnection,
+         retrieveConnection, retrieveAllConnections, closeAllConnections,
+         addUpgradeStatement, requestPermissions, 
+         isAvailable} = useSQLite();
+  sqlite = {echo: echo, getPlatform: getPlatform,
+            createConnection: createConnection,
+            closeConnection: closeConnection,
+            retrieveConnection: retrieveConnection,
+            retrieveAllConnections: retrieveAllConnections,
+            closeAllConnections: closeAllConnections,
+            addUpgradeStatement: addUpgradeStatement,
+            requestPermissions: requestPermissions,
+            isAvailable:isAvailable};
+  
+  return (
+  <IonApp>
+    <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route path="/tab1" component={Tab1} exact={true} />
+            <Route path="/tab2" component={Tab2} exact={true} />
+            <Route path="/tab3" component={Tab3} />
+            <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="tab1" href="/tab1">
+              <IonIcon icon={triangle} />
+              <IonLabel>Tab 1</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab2" href="/tab2">
+              <IonIcon icon={ellipse} />
+              <IonLabel>Tab 2</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab3" href="/tab3">
+              <IonIcon icon={square} />
+              <IonLabel>Tab 3</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+    </IonReactRouter>
+  </IonApp>
+  )
   };
-};
+
 export default App;
