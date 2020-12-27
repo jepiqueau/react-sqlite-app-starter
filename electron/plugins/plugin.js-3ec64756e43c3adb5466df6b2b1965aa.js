@@ -1027,7 +1027,7 @@ var capacitorPlugin = (function (exports) {
          */
         FilesystemPluginWeb.prototype.appendFile = function (options) {
             return __awaiter(this, void 0, void 0, function () {
-                var path, data, parentPath, now, ctime, occupiedEntry, parentEntry, parentArgPathIndex, parentArgPath, pathObj;
+                var path, data, parentPath, now, ctime, occupiedEntry, parentEntry, subDirIndex, parentArgPath, pathObj;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -1045,8 +1045,9 @@ var capacitorPlugin = (function (exports) {
                         case 2:
                             parentEntry = _a.sent();
                             if (!(parentEntry === undefined)) return [3 /*break*/, 4];
-                            parentArgPathIndex = parentPath.indexOf('/', 1);
-                            parentArgPath = parentArgPathIndex !== -1 ? parentPath.substr(parentArgPathIndex) : '/';
+                            subDirIndex = parentPath.indexOf('/', 1);
+                            if (!(subDirIndex !== -1)) return [3 /*break*/, 4];
+                            parentArgPath = parentPath.substr(subDirIndex);
                             return [4 /*yield*/, this.mkdir({ path: parentArgPath, directory: options.directory, recursive: true })];
                         case 3:
                             _a.sent();
@@ -3162,7 +3163,23 @@ var capacitorPlugin = (function (exports) {
                         let openPar = tables[i].sql.indexOf('(');
                         let closePar = tables[i].sql.lastIndexOf(')');
                         let sstr = tables[i].sql.substring(openPar + 1, closePar);
+                        let isStrfTime = false;
+                        if (sstr.includes('strftime'))
+                            isStrfTime = true;
                         let sch = sstr.replace(/\n/g, '').split(',');
+                        if (isStrfTime) {
+                            let nSch = [];
+                            for (let j = 0; j < sch.length; j++) {
+                                if (sch[j].includes('strftime')) {
+                                    nSch.push(sch[j] + ',' + sch[j + 1]);
+                                    j++;
+                                }
+                                else {
+                                    nSch.push(sch[j]);
+                                }
+                            }
+                            sch = [...nSch];
+                        }
                         for (let j = 0; j < sch.length; j++) {
                             const rstr = sch[j].trim();
                             let idx = rstr.indexOf(' ');
@@ -4147,6 +4164,8 @@ var capacitorPlugin = (function (exports) {
 
     exports.CapacitorSQLite = CapacitorSQLite;
     exports.CapacitorSQLiteElectronWeb = CapacitorSQLiteElectronWeb;
+
+    Object.defineProperty(exports, '__esModule', { value: true });
 
     return exports;
 
