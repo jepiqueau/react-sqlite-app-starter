@@ -12,7 +12,7 @@
 <p align="center">
   <img src="https://img.shields.io/maintenance/yes/2020?style=flat-square" />
   <a href="https://github.com/jepiqueau/react-sqlite-app-starter"><img src="https://img.shields.io/github/license/jepiqueau/react-sqlite-app-starter?style=flat-square" /></a>
-  <a href="https://github.com/jepiqueau/react-sqlite-app-starter"><img src="https://img.shields.io/github/package-json/v/jepiqueau/react-sqlite-app-starter?style=flat-square" /></a><!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+  <a href="https://github.com/jepiqueau/react-sqlite-app-starter"><img src="https://img.shields.io/github/package-json/v/jepiqueau/react-sqlite-app-starter/refactor?style=flat-square" /></a><!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
   <a href="#contributors-"><img src="https://img.shields.io/badge/all%20contributors-1-orange?style=flat-square" /></a>
   <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
