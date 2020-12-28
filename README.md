@@ -29,8 +29,8 @@
 To start building your App using this Starter App, clone this repo to a new directory:
 
 ```bash
-git clone --branch refactor https://github.com/jepiqueau/angular-sqlite-app-starter.git 
-cd angular-sqlite-app-starter
+git clone --branch refactor https://github.com/jepiqueau/react-sqlite-app-starter.git 
+cd react-sqlite-app-starter
 git remote rm origin
 ```
 
@@ -44,10 +44,12 @@ npm install
 
 ```bash
 npm run build
-npx cap update
+npx cap sync
+npx cap sync @capacitor-community/electron
 npm run build
 npx cap copy
 npx cap copy web
+npx cap copy @capacitor-community/electron
 ```
 
 the capacitor config parameters are:
@@ -86,6 +88,12 @@ npx cap open android
 ```
 Once Android Studio launches, you can build your app through the standard Android Studio workflow.
 
+#### Electron
+
+```bash
+npx cap open @capacitor-community/electron
+```
+
 ## Usage
 
 
@@ -95,6 +103,7 @@ The `@capacitor-community/sqlite` test is accessible in the Tab2 of the Applicat
  - SQLite Two DBs Tests
  - SQLite Encryption Test    (iOS && Android only)
  - SQLite Upgrade Version Test
+ - SQLite Json Import Export Test
 
 After having run the `SQLite Two DBs Tests` another test becomes accessible `SQLite Existing Test` which is using the existing connections created in `SQLite Two DBs Tests`.
 

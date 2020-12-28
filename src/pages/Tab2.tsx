@@ -6,6 +6,7 @@ import Test2dbs from '../components/Test2dbs';
 import ExistingConnection from '../components/ExistingConnection';
 import TestEncryption from '../components/TestEncryption';
 import TestUpgradeVersion from '../components/TestUpgradeVersion';
+import TestJsonImportExport from '../components/TestJsonImportExport';
 
 import './Tab2.css';
 import { usePermissions } from '../Hooks/usePermissions';
@@ -49,12 +50,16 @@ const Tab2: React.FC = (props) => {
           <IonItem>
             <IonButton onClick={() => startTest("TestUpgradeVersion")} expand="block">SQLite Upgrade Version Test</IonButton>
           </IonItem>
+          <IonItem>
+            <IonButton onClick={() => startTest("TestJsonImportExport")} expand="block">SQLite Json Import Export Test</IonButton>
+          </IonItem>
         </IonList>
         {isGranted && start === "NoEncryption" && <NoEncryption></NoEncryption>}
         {isGranted && start === "Test2dbs" && <Test2dbs></Test2dbs>}
         {isGranted && start === "ExistingConnection" && <ExistingConnection></ExistingConnection>}
         {isGranted && start === "TestEncryption" && <TestEncryption></TestEncryption>}
         {isGranted && start === "TestUpgradeVersion" && <TestUpgradeVersion></TestUpgradeVersion>}
+        {isGranted && start === "TestJsonImportExport" && <TestJsonImportExport></TestJsonImportExport>}
       </IonContent>
     </IonPage>
   );

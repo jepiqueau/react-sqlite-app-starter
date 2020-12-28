@@ -98,6 +98,24 @@ const TestEncryption: React.FC = () => {
             if (!ret.result) {
                 return false;
             }
+            // close the connection
+            ret = await sqlite.closeConnection("testEncryption"); 
+            if(!ret.result) {
+                return false;
+            }
+            // ************************************************
+            // Use the existing encrypted database
+            // ************************************************
+            // initialize the connection
+            db = await sqlite
+             .createConnection("testEncryption", true, "secret", 1);
+
+            // open db testEncryption
+            ret = await db.open();
+            if (!ret.result) {
+                return false;
+            }
+        
             // add one user with statement and values              
             sqlcmd = 
                     "INSERT INTO users (name,email,age) VALUES (?,?,?)";
