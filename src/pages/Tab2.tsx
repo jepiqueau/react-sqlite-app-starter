@@ -7,6 +7,7 @@ import ExistingConnection from '../components/ExistingConnection';
 import TestEncryption from '../components/TestEncryption';
 import TestUpgradeVersion from '../components/TestUpgradeVersion';
 import TestJsonImportExport from '../components/TestJsonImportExport';
+import CopyFromAssets from '../components/CopyFromAssets';
 
 import './Tab2.css';
 import { usePermissions } from '../Hooks/usePermissions';
@@ -53,6 +54,9 @@ const Tab2: React.FC = (props) => {
           <IonItem>
             <IonButton onClick={() => startTest("TestJsonImportExport")} expand="block">SQLite Json Import Export Test</IonButton>
           </IonItem>
+          <IonItem>
+            <IonButton onClick={() => startTest("CopyFromAssets")} expand="block">SQLite Copy From Assets Test</IonButton>
+          </IonItem>
         </IonList>
         {isGranted && start === "NoEncryption" && <NoEncryption></NoEncryption>}
         {isGranted && start === "Test2dbs" && <Test2dbs></Test2dbs>}
@@ -60,6 +64,7 @@ const Tab2: React.FC = (props) => {
         {isGranted && start === "TestEncryption" && <TestEncryption></TestEncryption>}
         {isGranted && start === "TestUpgradeVersion" && <TestUpgradeVersion></TestUpgradeVersion>}
         {isGranted && start === "TestJsonImportExport" && <TestJsonImportExport></TestJsonImportExport>}
+        {isGranted && start === "CopyFromAssets" && <CopyFromAssets></CopyFromAssets>}
       </IonContent>
     </IonPage>
   );

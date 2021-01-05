@@ -14,7 +14,6 @@ import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
-//import { useSQLite } from './Hooks/useSQLite';
 import { useSQLite } from 'react-sqlite-hook/dist';
 
 /* Core CSS required for Ionic components to work properly */
@@ -36,18 +35,18 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-
+// Singleton SQLite Hook
 export let sqlite: any;
+// Existing Connections Store
 export let existingConn: any;
-export const SQLiteContext = React.createContext({}); //Initialise
 
 const App: React.FC = () => {
   const [existConn, setExistConn] = useState(false);
   existingConn = {existConn: existConn, setExistConn: setExistConn};
   const {echo, getPlatform, createConnection, closeConnection,
          retrieveConnection, retrieveAllConnections, closeAllConnections,
-         addUpgradeStatement, importFromJson, isJsonValid, requestPermissions, 
-         isAvailable} = useSQLite();
+         addUpgradeStatement, importFromJson, isJsonValid,
+         requestPermissions, copyFromAssets, isAvailable} = useSQLite();
   sqlite = {echo: echo, getPlatform: getPlatform,
             createConnection: createConnection,
             closeConnection: closeConnection,
@@ -58,6 +57,7 @@ const App: React.FC = () => {
             importFromJson: importFromJson,
             isJsonValid: isJsonValid,
             requestPermissions: requestPermissions,
+            copyFromAssets: copyFromAssets,
             isAvailable:isAvailable};
   
   return (
@@ -88,6 +88,6 @@ const App: React.FC = () => {
     </IonReactRouter>
   </IonApp>
   )
-  };
+};
 
 export default App;

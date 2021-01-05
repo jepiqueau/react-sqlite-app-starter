@@ -2,7 +2,7 @@
 
 <h3 align="center">Ionic/React SQLite App Starter</h3>
 <p align="center"><strong><code>react-sqlite-app-starter</code></strong></p><br>
-<p align="center" style="font-size:50px;color:red"><strong>REFACTOR</strong></p><br>
+<p align="center" style="font-size:50px;color:red"><strong>REFACTOR 🚀</strong></p><br>
 <p align="center">
   A Ionic/React application demonstrating the use of the <strong><code>@capacitor-community/sqlite</code></strong> plugin and may be use as an application starter.
 
@@ -10,7 +10,7 @@
 
 <br>
 <p align="center">
-  <img src="https://img.shields.io/maintenance/yes/2020?style=flat-square" />
+  <img src="https://img.shields.io/maintenance/yes/2021?style=flat-square" />
   <a href="https://github.com/jepiqueau/react-sqlite-app-starter"><img src="https://img.shields.io/github/license/jepiqueau/react-sqlite-app-starter?style=flat-square" /></a>
   <a href="https://github.com/jepiqueau/react-sqlite-app-starter"><img src="https://img.shields.io/github/package-json/v/jepiqueau/react-sqlite-app-starter/refactor?style=flat-square" /></a><!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
   <a href="#contributors-"><img src="https://img.shields.io/badge/all%20contributors-1-orange?style=flat-square" /></a>
@@ -23,6 +23,13 @@
 | ----------------- | ----------------------------------------- | ------ |
 | Quéau Jean Pierre | [jepiqueau](https://github.com/jepiqueau) |        |
 
+## Browser Support
+
+The plugin follows the guidelines from the `Capacitor Team`,
+
+- [Capacitor Browser Support](https://capacitorjs.com/docs/v3/web#browser-support)
+
+meaning that it will not work in IE11 without additional JavaScript transformations, e.g. with [Babel](https://babeljs.io/).
 
 ## Installation
 
@@ -109,7 +116,7 @@ After having run the `SQLite Two DBs Tests` another test becomes accessible `SQL
 
 The application uses the React Hook `react-sqlite-hook refactor` to access the `@capacitor-community/sqlite refactor` API. 
 
-- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hookreact-sqlite-hook/blob/refactor/README.md)
+- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hook/blob/refactor/README.md)
 
 
 ## Contributors ✨
