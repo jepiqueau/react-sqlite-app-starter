@@ -1,21 +1,35 @@
-# Ionic/React SQLite App Starter
+<p align="center"><br><img src="https://avatars3.githubusercontent.com/u/16580653?v=4" width="128" height="128" /></p>
 
-Ionic/React application demonstrating the use of the `@capacitor-community/sqlite` plugin and can be use as an application starter.
+<h3 align="center">Ionic/React SQLite App Starter</h3>
+<p align="center"><strong><code>react-sqlite-app-starter</code></strong></p>
+<p align="center">Ionic/React application demonstrating the use of the</p>
+<p align="center"><strong><code>@capacitor-community/sqlite plugin<code></strong></p>
+<br>
+<p align="center">
+  <img src="https://img.shields.io/maintenance/yes/2021?style=flat-square" />
+  <a href="https://github.com/jepiqueau/react-sqlite-app-starter"><img src="https://img.shields.io/github/license/jepiqueau/vue-sqlite-app-starter?style=flat-square" /></a>
+  <a href="https://github.com/jepiqueau/react-sqlite-app-starter"><img src="https://img.shields.io/github/package-json/v/jepiqueau/react-sqlite-app-starter?style=flat-square" /></a>
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+<a href="#contributors-"><img src="https://img.shields.io/badge/all%20contributors-1-orange?style=flat-square" /></a>
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+</p>
+
+## REFACTOR 🚀
+
+A refactor branch of this application has started using:
+
+- [@capacitor-community/sqlite@refactor](https://github.com/capacitor-community/sqlite/blob/refactor/README.md)
+- [react-sqlite-hook@refactor](https://github.com/jepiqueau/react-sqlite-hook/blob/refactor/README.md)
 
 
-The `@capacitor-community/sqlite` test is accessible in the Tab2 of the Application by clicking on several SQLite test button :
+## Maintainers
 
- - SQLite No Encryption Tests
- - SQLite Encrypted Tests     (iOS && Android only)
- - SQLite Encryption Tests    (iOS && Android only)
- - SQLite Json Tests
-
-The application uses now a React Hook `react-sqlite-hook` to access the `@capacitor-community/sqlite` API. 
-
-- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hook)
+| Maintainer        | GitHub                                    | Social |
+| ----------------- | ----------------------------------------- | ------ |
+| Quéau Jean Pierre | [jepiqueau](https://github.com/jepiqueau) |        |
 
 
-## Getting Started
+## Installation
 
 To start building your App using this Starter App, clone this repo to a new directory:
 
@@ -84,6 +98,19 @@ Once Xcode launches, you can build your finally app binary through the standard 
 npx cap open android
 ```
 Once Android Studio launches, you can build your app through the standard Android Studio workflow.
+
+## Usage
+
+The `@capacitor-community/sqlite` test is accessible in the Tab2 of the Application by clicking on several SQLite test button :
+
+ - SQLite No Encryption Tests
+ - SQLite Encrypted Tests     (iOS && Android only)
+ - SQLite Encryption Tests    (iOS && Android only)
+ - SQLite Json Tests
+
+The application uses now a React Hook `react-sqlite-hook` to access the `@capacitor-community/sqlite` API. 
+
+- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hook)
 
 #### Resulting Output
 
@@ -159,7 +186,7 @@ Here we choose for the example [mySQLiteApp] [com.example.app]
 ### Install capacitor-sqlite plugin
 
 ```bash
-npm install --save @capacitor-community/sqlite@latest
+npm install --save-dev @capacitor-community/sqlite@latest
 npm install --save-dev react-sqlite@latest
 ```
 ### Modify the capacitor.config.json file
@@ -368,4 +395,25 @@ npx cap open ios
 npx cap open android
 npx cap open @capacitor-community/electron
 ```
+
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/jepiqueau"><img src="https://avatars3.githubusercontent.com/u/16580653?v=4" width="100px;" alt=""/><br /><sub><b>Jean Pierre Quéau</b></sub></a><br /><a href="https://github.com/jepiqueau/react-sqlite-app-starter/commits?author=jepiqueau" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 

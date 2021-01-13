@@ -3,7 +3,6 @@ import { Capacitor } from '@capacitor/core';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonList, IonItem } from '@ionic/react';
 import './Tab2.css';
 import { useSQLite } from 'react-sqlite-hook/dist';
-import { usePermissions } from '../Hooks/usePermissions';
 import { createTablesNoEncryption, importTwoUsers, importThreeMessages,
   dropTablesTablesNoEncryption } from '../Utils/utils-db-no-encryption';
 import { createTablesExecuteSet, dropTablesTablesExecuteSet, setArrayUsers, setArrayMessages } from '../Utils/utils-db-execute-set';
@@ -18,9 +17,8 @@ const Tab2: React.FC = () => {
   }
   const {openDB, createSyncTable, close, execute, executeSet, run, query,
     isDBExists, deleteDB, isJsonValid, importFromJson, exportToJson,
-    setSyncDate, requestPermissions} = useSQLite(/*{onPermissionsRequest}*/);
+    setSyncDate} = useSQLite();
   
-  const isGranted = usePermissions(platform);
     
   useEffect( () => {
     async function testDatabaseNoEncryption(): Promise<Boolean>  {
@@ -177,7 +175,6 @@ const Tab2: React.FC = () => {
       }
     }
     if(start > 0) {
-        if(isGranted) {
           testDatabaseNoEncryption().then(res => {
             if(res) {
               testDatabaseExecuteSet().then(res => {
@@ -191,13 +188,10 @@ const Tab2: React.FC = () => {
               setLog((log) => log.concat("\n* The set of tests failed *\n"));
             }
           });
-        } else {
-          setLog((log) => log.concat("\n* The set of tests failed *\n"));
-        }
     }
   }, [openDB, createSyncTable, close, execute, executeSet, run, query,
     isDBExists, deleteDB, isJsonValid, importFromJson, exportToJson,
-    setSyncDate, requestPermissions, start, platform, isGranted]);   
+    setSyncDate, start, platform]);   
 
   return (
     <IonPage>
