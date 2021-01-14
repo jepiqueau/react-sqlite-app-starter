@@ -10,7 +10,6 @@ import TestJsonImportExport from '../components/TestJsonImportExport';
 import CopyFromAssets from '../components/CopyFromAssets';
 
 import './Tab2.css';
-import { usePermissions } from '../Hooks/usePermissions';
 import { existingConn } from '../App';
 
 const Tab2: React.FC = (props) => {
@@ -18,7 +17,6 @@ const Tab2: React.FC = (props) => {
   const startTest = (testName: string) => {
     setStart(testName); 
   }
-  const isGranted = usePermissions();
 
   return (
     <IonPage>
@@ -58,13 +56,13 @@ const Tab2: React.FC = (props) => {
             <IonButton onClick={() => startTest("CopyFromAssets")} expand="block">SQLite Copy From Assets Test</IonButton>
           </IonItem>
         </IonList>
-        {isGranted && start === "NoEncryption" && <NoEncryption></NoEncryption>}
-        {isGranted && start === "Test2dbs" && <Test2dbs></Test2dbs>}
-        {isGranted && start === "ExistingConnection" && <ExistingConnection></ExistingConnection>}
-        {isGranted && start === "TestEncryption" && <TestEncryption></TestEncryption>}
-        {isGranted && start === "TestUpgradeVersion" && <TestUpgradeVersion></TestUpgradeVersion>}
-        {isGranted && start === "TestJsonImportExport" && <TestJsonImportExport></TestJsonImportExport>}
-        {isGranted && start === "CopyFromAssets" && <CopyFromAssets></CopyFromAssets>}
+        {start === "NoEncryption" && <NoEncryption></NoEncryption>}
+        {start === "Test2dbs" && <Test2dbs></Test2dbs>}
+        {start === "ExistingConnection" && <ExistingConnection></ExistingConnection>}
+        {start === "TestEncryption" && <TestEncryption></TestEncryption>}
+        {start === "TestUpgradeVersion" && <TestUpgradeVersion></TestUpgradeVersion>}
+        {start === "TestJsonImportExport" && <TestJsonImportExport></TestJsonImportExport>}
+        {start === "CopyFromAssets" && <CopyFromAssets></CopyFromAssets>}
       </IonContent>
     </IonPage>
   );

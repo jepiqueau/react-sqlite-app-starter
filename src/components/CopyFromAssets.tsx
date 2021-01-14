@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './CopyFromAssets.css';
 import { IonCard,IonCardContent } from '@ionic/react';
-import { createTablesNoEncryption, importTwoUsers, importThreeMessages,
-        dropTablesTablesNoEncryption } from '../Utils/noEncryptionUtils';
-      
+   
 import { sqlite } from '../App';
-import { SQLiteDBConnection, Result } from 'react-sqlite-hook/dist';
-import { deleteDatabase } from '../Utils/deleteDBUtil';     
+import { SQLiteDBConnection } from 'react-sqlite-hook/dist';
+    
 const CopyFromAssets: React.FC = () => {
     const [log, setLog] = useState<string[]>([]);
 

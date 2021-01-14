@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './NoEncryption.css';
 import { IonCard,IonCardContent } from '@ionic/react';
-import { createTablesNoEncryption, importTwoUsers, importThreeMessages,
+import { createTablesNoEncryption, importTwoUsers,
         dropTablesTablesNoEncryption } from '../Utils/noEncryptionUtils';
       
 import { sqlite } from '../App';
-import { SQLiteDBConnection, Result } from 'react-sqlite-hook/dist';
+import { SQLiteDBConnection} from 'react-sqlite-hook/dist';
 import { deleteDatabase } from '../Utils/deleteDBUtil';     
 const NoEncryption: React.FC = () => {
     const [log, setLog] = useState<string[]>([]);
