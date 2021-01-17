@@ -2386,11 +2386,20 @@ var capacitorPlugin = (function (exports) {
             this.Os = null;
             this.AppName = '';
             this.HomeDir = '';
+            this.appPath = null;
             this.Path = require('path');
             this.NodeFs = require('fs');
             this.Os = require('os');
             this.HomeDir = this.Os.homedir();
-            this.AppName = require('../../package.json').name;
+            const app = require('electron').remote.app;
+            this.appPath = app.getAppPath();
+            let sep = '/';
+            const idx = this.appPath.indexOf('\\');
+            if (idx != -1)
+                sep = '\\';
+            const mypath = this.appPath.substring(0, this.appPath.indexOf('electron') - 1);
+            this.AppName = mypath.substring(mypath.lastIndexOf(sep) + 1);
+            this.osType = this.Os.type();
         }
         /**
          * IsPathExists
@@ -2436,7 +2445,7 @@ var capacitorPlugin = (function (exports) {
         getDatabasesPath() {
             let retPath = '';
             const dbFolder = this.pathDB;
-            if (this.AppName == null) {
+            if (this.AppName == null || this.AppName.length === 0) {
                 let sep = '/';
                 const idx = __dirname.indexOf('\\');
                 if (idx != -1)
@@ -2749,7 +2758,6 @@ var capacitorPlugin = (function (exports) {
         }
     }
 
-    //1234567890123456789012345678901234567890123456789012345678901234567890
     class UtilsSQLite {
         constructor() {
             this.JSQlite = require('@journeyapps/sqlcipher').verbose();
@@ -3268,7 +3276,11 @@ var capacitorPlugin = (function (exports) {
                         if (jsonData.tables[i].indexes != null &&
                             jsonData.tables[i].indexes.length >= 1) {
                             for (let j = 0; j < jsonData.tables[i].indexes.length; j++) {
-                                statements.push(`CREATE INDEX IF NOT EXISTS ${jsonData.tables[i].indexes[j].name} ON ${jsonData.tables[i].name} (${jsonData.tables[i].indexes[j].column});`);
+                                const index = jsonData.tables[i].indexes[j];
+                                const tableName = jsonData.tables[i].name;
+                                let stmt = `CREATE ${Object.keys(index).includes('mode') ? index.mode + ' ' : ''}INDEX `;
+                                stmt += `${index.name} ON ${tableName} (${index.value});`;
+                                statements.push(stmt);
                             }
                         }
                     }
@@ -3595,7 +3607,7 @@ var capacitorPlugin = (function (exports) {
          * @param obj
          */
         isIndexes(obj) {
-            const keyIndexesLevel = ['name', 'column'];
+            const keyIndexesLevel = ['name', 'value', 'mode'];
             if (obj == null ||
                 (Object.keys(obj).length === 0 && obj.constructor === Object))
                 return false;
@@ -3604,7 +3616,10 @@ var capacitorPlugin = (function (exports) {
                     return false;
                 if (key === 'name' && typeof obj[key] != 'string')
                     return false;
-                if (key === 'column' && typeof obj[key] != 'string')
+                if (key === 'value' && typeof obj[key] != 'string')
+                    return false;
+                if (key === 'mode' &&
+                    (typeof obj[key] != 'string' || obj[key] != 'UNIQUE'))
                     return false;
             }
             return true;
@@ -3647,11 +3662,14 @@ var capacitorPlugin = (function (exports) {
                     for (let i = 0; i < indexes.length; i++) {
                         let index = {};
                         let keys = Object.keys(indexes[i]);
-                        if (keys.includes('column')) {
-                            index.column = indexes[i].column;
+                        if (keys.includes('value')) {
+                            index.value = indexes[i].value;
                         }
                         if (keys.includes('name')) {
                             index.name = indexes[i].name;
+                        }
+                        if (keys.includes('mode')) {
+                            index.mode = indexes[i].mode;
                         }
                         let isValid = this.isIndexes(index);
                         if (!isValid) {
@@ -4652,12 +4670,15 @@ var capacitorPlugin = (function (exports) {
                                 if (keys.length === 3) {
                                     if (retIndexes[j]['tbl_name'] === tableName) {
                                         const sql = retIndexes[j]['sql'];
+                                        const mode = sql.includes('UNIQUE') ? 'UNIQUE' : '';
                                         const oPar = sql.lastIndexOf('(');
                                         const cPar = sql.lastIndexOf(')');
-                                        indexes.push({
-                                            name: retIndexes[j]['name'],
-                                            column: sql.slice(oPar + 1, cPar),
-                                        });
+                                        let index = {};
+                                        index.name = retIndexes[j]['name'];
+                                        index.value = sql.slice(oPar + 1, cPar);
+                                        if (mode.length > 0)
+                                            index.mode = mode;
+                                        indexes.push(index);
                                     }
                                     else {
                                         reject(new Error(`GetIndexes: Table ${tableName} doesn't match`));
@@ -5374,6 +5395,7 @@ var capacitorPlugin = (function (exports) {
             this._versionUpgrades = {};
             console.log('CapacitorSQLite Electron');
             this.RemoteRef = remote;
+            this._osType = this._uFile.osType;
         }
         createConnection(options) {
             return __awaiter(this, void 0, void 0, function* () {
@@ -5386,8 +5408,12 @@ var capacitorPlugin = (function (exports) {
                 }
                 const dbName = options.database;
                 const version = options.version ? options.version : 1;
-                const encrypted = options.encrypted ? options.encrypted : false;
-                const inMode = options.mode ? options.mode : 'no-encryption';
+                const encrypted = options.encrypted && this._osType === 'Darwin'
+                    ? options.encrypted
+                    : false;
+                const inMode = options.mode && this._osType === 'Darwin'
+                    ? options.mode
+                    : 'no-encryption';
                 let upgDict = {};
                 const vUpgKeys = Object.keys(this._versionUpgrades);
                 if (vUpgKeys.length !== 0 && vUpgKeys.includes(dbName)) {
