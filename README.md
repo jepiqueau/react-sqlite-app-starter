@@ -4,7 +4,7 @@
 <p align="center"><strong><code>react-sqlite-app-starter</code></strong></p><br>
 <p align="center" style="font-size:50px;color:red"><strong>REFACTOR 🚀</strong></p><br>
 <p align="center">
-  A Ionic/React application demonstrating the use of the <strong><code>@capacitor-community/sqlite</code></strong> plugin and may be use as an application starter.
+  A Ionic/React application demonstrating the use of the <strong><code>@capacitor-community/sqlite@latest</code></strong> plugin and may be use as an application starter.
 
 </p>
 
@@ -116,7 +116,7 @@ After having run the `SQLite Two DBs Tests` another test becomes accessible `SQL
 
 The application uses the React Hook `react-sqlite-hook refactor` to access the `@capacitor-community/sqlite refactor` API. 
 
-- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hook/blob/refactor/README.md)
+- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hook/blob/2.9.x/README.md)
 
 
 ## Contributors ✨
