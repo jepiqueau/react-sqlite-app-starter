@@ -3,24 +3,17 @@
 <h3 align="center">Ionic/React SQLite App Starter</h3>
 <p align="center"><strong><code>react-sqlite-app-starter</code></strong></p>
 <p align="center">Ionic/React application demonstrating the use of the</p>
-<p align="center"><strong><code>@capacitor-community/sqlite plugin<code></strong></p>
+<p align="center"><strong><code>@capacitor-community/sqlite@initial plugin<code></strong></p>
 <br>
 <p align="center">
-  <img src="https://img.shields.io/maintenance/yes/2021?style=flat-square" />
+  <img src="https://img.shields.io/maintenance/no/2021?style=flat-square" />
   <a href="https://github.com/jepiqueau/react-sqlite-app-starter"><img src="https://img.shields.io/github/license/jepiqueau/vue-sqlite-app-starter?style=flat-square" /></a>
-  <a href="https://github.com/jepiqueau/react-sqlite-app-starter"><img src="https://img.shields.io/github/package-json/v/jepiqueau/react-sqlite-app-starter?style=flat-square" /></a>
+  <a href="https://github.com/jepiqueau/react-sqlite-app-starter"><img src="https://img.shields.io/github/package-json/v/jepiqueau/react-sqlite-app-starter/initial?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="#contributors-"><img src="https://img.shields.io/badge/all%20contributors-1-orange?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
-
-## REFACTOR 🚀
-
-A refactor branch of this application has started using:
-
-- [@capacitor-community/sqlite@refactor](https://github.com/capacitor-community/sqlite/blob/refactor/README.md)
-- [react-sqlite-hook@refactor](https://github.com/jepiqueau/react-sqlite-hook/blob/refactor/README.md)
-
+<br>
 
 ## Maintainers
 
@@ -28,13 +21,14 @@ A refactor branch of this application has started using:
 | ----------------- | ----------------------------------------- | ------ |
 | Quéau Jean Pierre | [jepiqueau](https://github.com/jepiqueau) |        |
 
+## Maintenance 🛑 
 
 ## Installation
 
 To start building your App using this Starter App, clone this repo to a new directory:
 
 ```bash
-git clone https://github.com/jepiqueau/react-sqlite-app-starter.git 
+git clone --branch initial https://github.com/jepiqueau/react-sqlite-app-starter.git 
 cd react-sqlite-app-starter
 git remote rm origin
 ```
@@ -110,7 +104,7 @@ The `@capacitor-community/sqlite` test is accessible in the Tab2 of the Applicat
 
 The application uses now a React Hook `react-sqlite-hook` to access the `@capacitor-community/sqlite` API. 
 
-- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hook)
+- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hook/2.4.x)
 
 #### Resulting Output
 
@@ -186,8 +180,8 @@ Here we choose for the example [mySQLiteApp] [com.example.app]
 ### Install capacitor-sqlite plugin
 
 ```bash
-npm install --save-dev @capacitor-community/sqlite@latest
-npm install --save-dev react-sqlite@latest
+npm install --save-dev @capacitor-community/sqlite@initial
+npm install --save-dev react-sqlite@initial
 ```
 ### Modify the capacitor.config.json file
 
@@ -384,7 +378,8 @@ The datastores created are under **User/Databases/YOUR_APP_NAME/**
 Follow this process:
 
 ```bash
-npm install --save capacitor-sqlite@latest
+npm install --save capacitor-sqlite@initial
+npm install --save-dev react-sqlite@initial
 npx cap sync
 npx cap sync @capacitor-community/electron
 npm run build
