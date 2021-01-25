@@ -104,7 +104,7 @@ The `@capacitor-community/sqlite` test is accessible in the Tab2 of the Applicat
 
 The application uses now a React Hook `react-sqlite-hook` to access the `@capacitor-community/sqlite` API. 
 
-- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hook/2.4.x)
+- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hook/tree/2.4.x)
 
 #### Resulting Output
 
