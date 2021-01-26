@@ -30,7 +30,6 @@ The plugin follows the guidelines from the `Capacitor Team`,
 
 meaning that it will not work in IE11 without additional JavaScript transformations, e.g. with [Babel](https://babeljs.io/).
 
-## Installation 🚧
 
 ## Installation
 
