@@ -32,8 +32,84 @@ meaning that it will not work in IE11 without additional JavaScript transformati
 
 ## Installation 🚧
 
- 🚧 !!! Not yet there !!! 🚧
+## Installation
 
+To start building your App using this Starter App, clone this repo to a new directory:
+
+```bash
+git clone https://github.com/jepiqueau/angular-sqlite-app-starter.git 
+cd angular-sqlite-app-starter
+git remote rm origin
+```
+
+ - then install it
+
+```bash
+npm install
+```
+
+ - then go to the building process
+
+```bash
+npm run build
+npx cap sync
+npm run build
+npx cap copy
+npx cap copy web
+```
+
+the capacitor config parameters are:
+
+```
+  "appId": "com.example.app.capacitor",
+  "appName": "react-sqlite-app-starter",
+```
+
+### Building Web Code
+
+The ```@capacitor-community/sqlite``` is not implemented for Web Browsers.
+if you run
+
+```bash
+npx cap serve
+```
+you will get the following messages:
+```
+SQLite Plugin not available for Web Platform
+```
+
+### Building Native Project
+
+#### IOS
+
+```bash
+npx cap open ios
+```
+Once Xcode launches, you can build your finally app binary through the standard Xcode workflow.
+
+#### Android
+
+```bash
+npx cap open android
+```
+Once Android Studio launches, you can build your app through the standard Android Studio workflow.
+
+## Usage
+
+
+The `@capacitor-community/sqlite` test is accessible in the Tab2 of the Application by clicking on several SQLite test button :
+
+ - SQLite No Encryption Test
+ - SQLite Two DBs Tests
+ - SQLite Encryption Test    (iOS && Android only)
+ - SQLite Upgrade Version Test
+ - SQLite Json Import Export Test
+
+After having run the `SQLite Two DBs Tests` another test becomes accessible `SQLite Existing Test` which is using the existing connections created in `SQLite Two DBs Tests`.
+
+The application uses the React Hook `react-sqlite-hook refactor` to access the `@capacitor-community/sqlite refactor` API. 
+
+- [react-sqlite-hook](https://github.com/jepiqueau/react-sqlite-hook/blob/master/README.md)
  
 ## Contributors ✨
 
