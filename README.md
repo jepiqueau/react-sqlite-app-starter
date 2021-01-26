@@ -36,8 +36,8 @@ meaning that it will not work in IE11 without additional JavaScript transformati
 To start building your App using this Starter App, clone this repo to a new directory:
 
 ```bash
-git clone https://github.com/jepiqueau/angular-sqlite-app-starter.git 
-cd angular-sqlite-app-starter
+git clone https://github.com/jepiqueau/react-sqlite-app-starter.git 
+cd react-sqlite-app-starter
 git remote rm origin
 ```
 
