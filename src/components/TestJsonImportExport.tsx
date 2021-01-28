@@ -202,7 +202,7 @@ const TestJsonImportExport: React.FC = () => {
                 errMess.current = `isJsonValid Full returns false`;
                 return false;
             }
-            setLog((log) => log.concat("> Export Json Object is valid\n"));    
+            setLog((log) => log.concat("> Export Full Json Object is valid\n"));    
             setLog((log) => log.concat("* Ending testFullExportToJson \n"));
             return true;
         } catch (err) {
@@ -233,9 +233,10 @@ const TestJsonImportExport: React.FC = () => {
                     || jsonObj.export.tables[1].name !== 'messages' || jsonObj.export.tables[2].name !== 'images' 
                     || jsonObj.export.tables[0].values.length !== 4 || jsonObj.export.tables[1].values.length !== 3
                     || jsonObj.export.tables[2].values.length !== 1) {
+                        errMess.current = "Export Partial tables.length != 3";
                 return false;
             }
-            setLog((log) => log.concat("> Export Json Object successful\n"));    
+            setLog((log) => log.concat("> Export  Partial Json Object successful\n"));    
             setLog((log) => log.concat("* Ending testPartialExportToJson \n"));
             return true;
         } catch (err) {
