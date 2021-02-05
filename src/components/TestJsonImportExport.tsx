@@ -190,11 +190,13 @@ const TestJsonImportExport: React.FC = () => {
             setLog((log) => log.concat(`> isJsonValid ${res.message}\n`));
         return false;
         }
-        setLog((log) => log.concat("> Export Json Object is valid\n"));    
-        if(jsonObj.export.tables.length !== 3 || jsonObj.export.tables[0].name !== 'users'
+        setLog((log) => log.concat("> Export Json Object is valid\n")); 
+        console.log(`jsonObj ${JSON.stringify(jsonObj)}`)   
+        if(jsonObj.export.tables.length !== 4 || jsonObj.export.tables[0].name !== 'users'
                 || jsonObj.export.tables[1].name !== 'messages' || jsonObj.export.tables[2].name !== 'images' 
+                || jsonObj.export.tables[3].name !== 'company' 
                 || jsonObj.export.tables[0].values.length !== 4 || jsonObj.export.tables[1].values.length !== 3
-                || jsonObj.export.tables[2].values.length !== 1) {
+                || jsonObj.export.tables[2].values.length !== 1 || jsonObj.export.tables[3].values.length !== 3) {
             return false;
         }
         setLog((log) => log.concat("> Export Json Object successful\n"));    

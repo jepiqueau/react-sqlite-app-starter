@@ -84,7 +84,24 @@ export const partialImport1: any = {
               [3,"test post 3","content test post 3",1590396146],
               [4,"test post 4","content test post 4",1590396288]
           ]
-        }
+        },
+        {
+          name: 'company',
+          schema: [
+            { column: 'id', value: 'TEXT NOT NULL' },
+            { column: 'name', value: 'TEXT NOT NULL' },
+            { column: 'age', value: 'INTEGER NOT NULL' },
+            { column: 'address', value: 'TEXT' },
+            { column: 'salary', value: 'REAL'},
+            { column: "last_modified", value: "INTEGER"},
+            { constraint: 'PK_id_name', value: 'PRIMARY KEY (id,name)'},
+          ],
+          values: [
+              ["ec266aa0-acbd-4cd3-af5c-8b1d16850bcb","Jones",55,"Australia",1250.98,1608216034],
+              ["2127fa5e-17bc-4610-9d57-9ca5d4400f6f","Lawson",32,"Ireland",2345.60,1608216034],
+              ["955a627b-147c-462f-b34b-53069bad2d54","Bush",44,"USA",1850.10,1608216034],
+          ]
+        },
 
     ]
 };
@@ -98,12 +115,13 @@ export const dataToImport59: any = {
       {
           name: "countries",
           schema: [
-              {column:"id", value: "TEXT PRIMARY KEY NOT NULL"},
-              {column:"name", value:"TEXT UNIQUE NOT NULL"},
+              {column:"id", value: "TEXT NOT NULL"},
+              {column:"name", value:"TEXT NOT NULL"},
               {column:"code", value:"TEXT"},
               {column:"language", value:"TEXT"},
               {column:"phone_code", value:"TEXT"},
-              {column:"last_modified", value:"INTEGER"}
+              {column:"last_modified", value:"INTEGER"},
+              {constraint:"PK_id_name", value:"PRIMARY KEY (id,name)"}
           ],
           indexes: [
               {name: "index_country_on_name",value: "name"},
@@ -167,3 +185,28 @@ export const dataToImport2: any = {
 
   ]
 };
+export const dataToImport71: any = {
+  database : "db-from-json71",
+  version : 1,
+  encrypted : false,
+  mode : "full",
+  tables :[
+      {
+          name: "company",
+          schema: [
+              {column:"id", value: "INTEGER NOT NULL"},
+              {column:"name", value:"TEXT NOT NULL"},
+              {column:"age", value:"INTEGER NOT NULL"},
+              {column:"country", value:"TEXT"},
+              {column:"salary", value:"REAL"},
+              {column:"last_modified", value:"INTEGER"},
+              {constraint:"PK_id_name", value:"PRIMARY KEY (id,name)"}
+          ],
+          values: [
+              [1,"Jones",55,"Australia",1250.98,1608216034],
+              [2,"Lawson",32,"Ireland",2345.60,1608216034],
+              [3,"Bush",44,"USA",1850.10,1608216034],
+          ]
+      },
+    ]
+  };
