@@ -15,6 +15,7 @@ import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 import { useSQLite } from 'react-sqlite-hook/dist';
+import { Toast } from '@capacitor/toast';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -39,24 +40,54 @@ import './theme/variables.css';
 export let sqlite: any;
 // Existing Connections Store
 export let existingConn: any;
+// Is Json Listeners used
+export let isJsonListeners: any;
 
 const App: React.FC = () => {
   const [existConn, setExistConn] = useState(false);
   existingConn = {existConn: existConn, setExistConn: setExistConn};
+  const [jsonListeners, setJsonListeners] = useState(false);
+  isJsonListeners = {jsonListeners: jsonListeners, setJsonListeners: setJsonListeners};
+
+  const onProgressImport = async (progress: string) => {
+    if(isJsonListeners.jsonListeners) await Toast.show({
+        text: progress,
+        duration: 'short',
+        position: 'top'
+      });
+  }
+  const onProgressExport = async (progress: string) => {
+    if(isJsonListeners.jsonListeners) await Toast.show({
+        text: progress,
+        duration: 'short',
+        position: 'top'
+      });
+  }
+
   const {echo, getPlatform, createConnection, closeConnection,
          retrieveConnection, retrieveAllConnections, closeAllConnections,
-         addUpgradeStatement, importFromJson, isJsonValid,
-         copyFromAssets, isAvailable} = useSQLite();
+         isConnection, addUpgradeStatement, importFromJson, isJsonValid,
+         isDatabase, getDatabaseList, addSQLiteSuffix, deleteOldDatabases,
+         copyFromAssets, checkConnectionsConsistency, isAvailable} = useSQLite({
+          onProgressImport,
+          onProgressExport
+         });
   sqlite = {echo: echo, getPlatform: getPlatform,
             createConnection: createConnection,
             closeConnection: closeConnection,
             retrieveConnection: retrieveConnection,
             retrieveAllConnections: retrieveAllConnections,
             closeAllConnections: closeAllConnections,
+            isConnection: isConnection,
+            isDatabase: isDatabase,
+            getDatabaseList: getDatabaseList,
+            addSQLiteSuffix: addSQLiteSuffix,
+            deleteOldDatabases: deleteOldDatabases,
             addUpgradeStatement: addUpgradeStatement,
             importFromJson: importFromJson,
             isJsonValid: isJsonValid,
             copyFromAssets: copyFromAssets,
+            checkConnectionsConsistency: checkConnectionsConsistency,
             isAvailable:isAvailable};
   
   return (

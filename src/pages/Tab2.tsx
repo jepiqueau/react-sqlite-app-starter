@@ -8,6 +8,7 @@ import TestEncryption from '../components/TestEncryption';
 import TestUpgradeVersion from '../components/TestUpgradeVersion';
 import TestJsonImportExport from '../components/TestJsonImportExport';
 import CopyFromAssets from '../components/CopyFromAssets';
+import TestListeners from '../components/TestListeners';
 
 import './Tab2.css';
 import { existingConn } from '../App';
@@ -55,6 +56,9 @@ const Tab2: React.FC = (props) => {
           <IonItem>
             <IonButton onClick={() => startTest("CopyFromAssets")} expand="block">SQLite Copy From Assets Test</IonButton>
           </IonItem>
+          <IonItem>
+            <IonButton onClick={() => startTest("ImportExportListeners")} expand="block">SQLite Listeners Test</IonButton>
+          </IonItem>
         </IonList>
         {start === "NoEncryption" && <NoEncryption></NoEncryption>}
         {start === "Test2dbs" && <Test2dbs></Test2dbs>}
@@ -63,6 +67,7 @@ const Tab2: React.FC = (props) => {
         {start === "TestUpgradeVersion" && <TestUpgradeVersion></TestUpgradeVersion>}
         {start === "TestJsonImportExport" && <TestJsonImportExport></TestJsonImportExport>}
         {start === "CopyFromAssets" && <CopyFromAssets></CopyFromAssets>}
+        {start === "ImportExportListeners" && <TestListeners></TestListeners>}
       </IonContent>
     </IonPage>
   );
