@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, { useState, useRef }  from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
@@ -15,7 +15,7 @@ import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 import { useSQLite } from 'react-sqlite-hook/dist';
-import { Toast } from '@capacitor/toast';
+import ModalJsonMessages from './components/ModalJsonMessages';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -36,6 +36,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+
 // Singleton SQLite Hook
 export let sqlite: any;
 // Existing Connections Store
@@ -48,22 +49,20 @@ const App: React.FC = () => {
   existingConn = {existConn: existConn, setExistConn: setExistConn};
   const [jsonListeners, setJsonListeners] = useState(false);
   isJsonListeners = {jsonListeners: jsonListeners, setJsonListeners: setJsonListeners};
-
+  const [isModal,setIsModal] = useState(false);
+  const message = useRef("");
   const onProgressImport = async (progress: string) => {
-    if(isJsonListeners.jsonListeners) await Toast.show({
-        text: progress,
-        duration: 'short',
-        position: 'top'
-      });
+    if(isJsonListeners.jsonListeners) {
+      if(!isModal) setIsModal(true);
+      message.current = message.current.concat(`${progress}\n`);
+    }
   }
   const onProgressExport = async (progress: string) => {
-    if(isJsonListeners.jsonListeners) await Toast.show({
-        text: progress,
-        duration: 'short',
-        position: 'top'
-      });
+    if(isJsonListeners.jsonListeners) {
+      if(!isModal) setIsModal(true);
+      message.current = message.current.concat(`${progress}\n`);
+    }
   }
-
   const {echo, getPlatform, createConnection, closeConnection,
          retrieveConnection, retrieveAllConnections, closeAllConnections,
          isConnection, addUpgradeStatement, importFromJson, isJsonValid,
@@ -89,6 +88,10 @@ const App: React.FC = () => {
             copyFromAssets: copyFromAssets,
             checkConnectionsConsistency: checkConnectionsConsistency,
             isAvailable:isAvailable};
+  const handleClose = () => {
+    setIsModal(false);
+    message.current = "";
+  }
   
   return (
   <IonApp>
@@ -116,6 +119,10 @@ const App: React.FC = () => {
           </IonTabBar>
         </IonTabs>
     </IonReactRouter>
+    { isModal
+      ? <ModalJsonMessages close={handleClose} message={message.current}></ModalJsonMessages>
+      : null
+    }
   </IonApp>
   )
 };

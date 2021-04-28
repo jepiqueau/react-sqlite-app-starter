@@ -1,6 +1,6 @@
 {
   "name": "react-sqlite-app-starter",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "private": true,
   "description": "Ionic/React SQLite Application Starter",
   "homepage": "./",
@@ -26,6 +26,7 @@
     "ionicons": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-modal": "^3.13.1",
     "react-router": "latest",
     "react-router-dom": "latest",
     "react-scripts": "latest",
@@ -58,6 +59,7 @@
     "@capacitor/cli": "next",
     "@capacitor/dialog": "^0.4.1",
     "@capacitor/toast": "^0.4.6",
+    "@types/react-modal": "^3.12.0",
     "react-sqlite-hook": "^2.0.1"
   },
   "repository": {
