@@ -1,0 +1,8 @@
+{
+  "appId": "com.example.app.capacitor",
+  "appName": "react-sqlite-app-starter",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "cordova": {}
+}

@@ -29,7 +29,7 @@ const ModalJsonMessages: React.FC<ModalProps> = (props) => {
         }
     };
     return (
-        <Modal isOpen={modalIsOpen} style={customStyles}>
+        <Modal isOpen={modalIsOpen} style={customStyles} ariaHideApp={false}>
             <button className="button" onClick={setModalIsOpenToFalse}>Close</button>
             <pre>
                 <p className="message">{props.message}</p>

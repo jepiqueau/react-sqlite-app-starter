@@ -16,6 +16,7 @@ import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 import { useSQLite } from 'react-sqlite-hook/dist';
 import ModalJsonMessages from './components/ModalJsonMessages';
+import { Capacitor } from '@capacitor/core';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -45,6 +46,8 @@ export let existingConn: any;
 export let isJsonListeners: any;
 
 const App: React.FC = () => {
+  const platform = Capacitor.getPlatform();
+  const isWeb = useRef(platform === 'web' ? true : false);
   const [existConn, setExistConn] = useState(false);
   existingConn = {existConn: existConn, setExistConn: setExistConn};
   const [jsonListeners, setJsonListeners] = useState(false);
@@ -63,31 +66,20 @@ const App: React.FC = () => {
       message.current = message.current.concat(`${progress}\n`);
     }
   }
-  const {echo, getPlatform, createConnection, closeConnection,
-         retrieveConnection, retrieveAllConnections, closeAllConnections,
-         isConnection, addUpgradeStatement, importFromJson, isJsonValid,
-         isDatabase, getDatabaseList, addSQLiteSuffix, deleteOldDatabases,
-         copyFromAssets, checkConnectionsConsistency, isAvailable} = useSQLite({
-          onProgressImport,
-          onProgressExport
-         });
-  sqlite = {echo: echo, getPlatform: getPlatform,
-            createConnection: createConnection,
-            closeConnection: closeConnection,
-            retrieveConnection: retrieveConnection,
-            retrieveAllConnections: retrieveAllConnections,
-            closeAllConnections: closeAllConnections,
-            isConnection: isConnection,
-            isDatabase: isDatabase,
-            getDatabaseList: getDatabaseList,
-            addSQLiteSuffix: addSQLiteSuffix,
-            deleteOldDatabases: deleteOldDatabases,
-            addUpgradeStatement: addUpgradeStatement,
-            importFromJson: importFromJson,
-            isJsonValid: isJsonValid,
-            copyFromAssets: copyFromAssets,
-            checkConnectionsConsistency: checkConnectionsConsistency,
-            isAvailable:isAvailable};
+  sqlite = useSQLite({
+    onProgressImport,
+    onProgressExport
+  });
+  if(isWeb.current) {
+    customElements.whenDefined('jeep-sqlite').then(() => {
+      const jeepSqliteEl = document.querySelector('jeep-sqlite');
+      if(jeepSqliteEl != null) {
+        console.log(`$$ jeepSqliteEl is defined}`);
+      } else {
+        console.log('$$ jeepSqliteEl is null');
+      }
+    });
+  }
   const handleClose = () => {
     setIsModal(false);
     message.current = "";
@@ -121,6 +113,10 @@ const App: React.FC = () => {
     </IonReactRouter>
     { isModal
       ? <ModalJsonMessages close={handleClose} message={message.current}></ModalJsonMessages>
+      : null
+    }
+    { isWeb
+      ? <jeep-sqlite></jeep-sqlite>
       : null
     }
   </IonApp>

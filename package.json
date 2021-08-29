@@ -1,16 +1,16 @@
 {
   "name": "react-sqlite-app-starter",
-  "version": "3.0.0-beta.2",
+  "version": "3.2.0-9",
   "private": true,
   "description": "Ionic/React SQLite Application Starter",
   "homepage": "./",
   "author": "Jean Pierre Quéau",
   "license": "MIT",
   "dependencies": {
-    "@capacitor-community/electron": "^1.4.1",
-    "@capacitor/android": "next",
-    "@capacitor/core": "next",
-    "@capacitor/ios": "next",
+    "@capacitor-community/electron": "^4.0.3",
+    "@capacitor/android": "^3.2.0",
+    "@capacitor/core": "^3.2.0",
+    "@capacitor/ios": "^3.2.0",
     "@ionic/pwa-elements": "^3.0.2",
     "@ionic/react": "latest",
     "@ionic/react-router": "latest",
@@ -24,13 +24,14 @@
     "@types/react-router": "latest",
     "@types/react-router-dom": "latest",
     "ionicons": "latest",
+    "jeep-sqlite": "^0.0.7",
     "react": "latest",
     "react-dom": "latest",
-    "react-modal": "^3.13.1",
+    "react-modal": "latest",
     "react-router": "latest",
     "react-router-dom": "latest",
     "react-scripts": "latest",
-    "typescript": "^4.0.5"
+    "typescript": "^4.3.5"
   },
   "scripts": {
     "update": "npm install --save @capacitor-community/sqlite@latest --save-dev react-sqlite-hook@latest",
@@ -55,12 +56,12 @@
     ]
   },
   "devDependencies": {
-    "@capacitor-community/sqlite": "next",
-    "@capacitor/cli": "next",
-    "@capacitor/dialog": "^0.4.1",
-    "@capacitor/toast": "^0.4.6",
+    "@capacitor-community/sqlite": "3.2.0-9",
+    "@capacitor/cli": "^3.2.0",
+    "@capacitor/dialog": "^1.0.2",
+    "@capacitor/toast": "^1.0.2",
     "@types/react-modal": "^3.12.0",
-    "react-sqlite-hook": "^2.0.1"
+    "react-sqlite-hook": "^2.0.5"
   },
   "repository": {
     "type": "git",

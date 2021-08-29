@@ -12,9 +12,16 @@ import TestListeners from '../components/TestListeners';
 
 import './Tab2.css';
 import { existingConn } from '../App';
+import { sqlite } from '../App';
 
 const Tab2: React.FC = (props) => {
   const [start, setStart] = useState("");
+  const [isNative, setIsNative] = useState(false);
+  sqlite.getPlatform().then((platform: any) => {
+    if(platform.platform === "ios" || platform.platform === "android") {
+      setIsNative(true);
+    }
+  });
   const startTest = (testName: string) => {
     setStart(testName); 
   }
@@ -44,9 +51,11 @@ const Tab2: React.FC = (props) => {
               <IonButton onClick={() => startTest("ExistingConnection")} expand="block">SQLite Existing Test</IonButton>
             </IonItem>
           }
-          <IonItem>
-            <IonButton onClick={() => startTest("TestEncryption")} expand="block">SQLite Encryption Test</IonButton>
-          </IonItem>
+          {isNative &&
+            <IonItem>
+              <IonButton onClick={() => startTest("TestEncryption")} expand="block">SQLite Encryption Test</IonButton>
+            </IonItem>
+          }
           <IonItem>
             <IonButton onClick={() => startTest("TestUpgradeVersion")} expand="block">SQLite Upgrade Version Test</IonButton>
           </IonItem>
