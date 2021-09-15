@@ -126,7 +126,7 @@ const TestUpgradeVersion: React.FC = () => {
                 // close connection to test-updversion
                 await sqlite.closeConnection("test-updversion"); 
                 return true;
-            } catch (err) {
+            } catch (err: any) {
                 errMess.current = `${err.message}`;
                 return false;
             }

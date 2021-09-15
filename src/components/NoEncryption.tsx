@@ -119,7 +119,7 @@ const NoEncryption: React.FC = () => {
                 await sqlite.closeConnection("NoEncryption"); 
                         
                 return true;
-            } catch (err) {
+            } catch (err: any) {
                 errMess.current = `${err.message}`;
                 return false;
             }

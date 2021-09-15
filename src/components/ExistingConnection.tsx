@@ -93,7 +93,7 @@ const ExistingConnection: React.FC = () => {
                 setLog((log) => log.concat("* Ending testtestExistingConns *\n"));
                 existingConn.setExistConn(true);
                 return true;
-            } catch (err) {
+            } catch (err: any) {
                 errMess.current = `${err.message}`;
                 return false;
             }

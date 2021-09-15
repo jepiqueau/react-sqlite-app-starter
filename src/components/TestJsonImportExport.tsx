@@ -87,7 +87,7 @@ const TestJsonImportExport: React.FC = () => {
             setLog((log) => log.concat("> closeConnection successful\n"));
             setLog((log) => log.concat("* Ending testFullImportFromJson *\n"));
             return true;
-        } catch (err) {
+        } catch (err: any) {
             errMess.current = `${err.message}`;
             return false;
         }
@@ -163,7 +163,7 @@ const TestJsonImportExport: React.FC = () => {
             setLog((log) => log.concat("> closeConnection successful\n"));
             setLog((log) => log.concat("* Ending testPartialImportFromJson *\n"));
             return true;
-        } catch (err) {
+        } catch (err: any) {
             errMess.current = `${err.message}`;
             return false;
         }
@@ -205,7 +205,7 @@ const TestJsonImportExport: React.FC = () => {
             setLog((log) => log.concat("> Export Full Json Object is valid\n"));    
             setLog((log) => log.concat("* Ending testFullExportToJson \n"));
             return true;
-        } catch (err) {
+        } catch (err: any) {
             errMess.current = `${err.message}`;
             return false;
         }
@@ -239,7 +239,7 @@ const TestJsonImportExport: React.FC = () => {
             setLog((log) => log.concat("> Export  Partial Json Object successful\n"));    
             setLog((log) => log.concat("* Ending testPartialExportToJson \n"));
             return true;
-        } catch (err) {
+        } catch (err: any) {
             errMess.current = `${err.message}`;
             return false;
         }
@@ -259,7 +259,7 @@ const TestJsonImportExport: React.FC = () => {
             await db.open();
             setLog((log) => log.concat("> open " +
                                 " 'db-from-json' successful\n"));
-        } catch (err) {
+        } catch (err: any) {
             errMess.current = `${err.message}`;
             return false;
         }
@@ -285,7 +285,7 @@ const TestJsonImportExport: React.FC = () => {
             setLog((log) => log.concat("** Ending testExportToJson **\n"));
 
             return true;
-        } catch (err) {
+        } catch (err: any) {
             errMess.current = `${err.message}`;
             return false;
         }

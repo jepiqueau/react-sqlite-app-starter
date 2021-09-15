@@ -143,7 +143,7 @@ const TestEncryption: React.FC = () => {
             
             await sqlite.closeConnection("testEncryption"); 
             return true;
-        } catch (err) {
+        } catch (err: any) {
             errMess.current = `${err.message}`;
             return false;
         }

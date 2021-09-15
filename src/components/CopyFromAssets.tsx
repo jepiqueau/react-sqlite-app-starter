@@ -78,7 +78,7 @@ const CopyFromAssets: React.FC = () => {
                     .concat("* Ending testDatabaseCopyFromAssets *\n"));
 
                 return true;
-            } catch (err) {
+            } catch (err: any) {
                 errMess.current = `${err.message}`;
                 return false;
             }

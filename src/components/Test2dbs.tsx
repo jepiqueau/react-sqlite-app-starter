@@ -112,7 +112,7 @@ const Test2dbs: React.FC = () => {
                 setLog((log) => log.concat("* Ending testTwoDBS *\n"));
                 existingConn.setExistConn(true);
                 return true;
-            } catch (err) {
+            } catch (err:any) {
                 errMess.current = `${err.message}`;
                 return false;
             }

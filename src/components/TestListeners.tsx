@@ -215,7 +215,7 @@ const TestListeners: React.FC = () => {
                 setLog((log) => log.concat("> closeConnection successful\n"));
                 setLog((log) => log.concat("* Ending testFullImportFromJson *\n"));
                 return true;
-            } catch (err) {
+            } catch (err: any) {
                 console.log(`in catch err ${err.message}`)
                 errMess.current = `${err.message}`;
                 return false;

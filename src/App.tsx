@@ -1,4 +1,4 @@
-import React, { useState, useRef }  from 'react';
+import React, { useState, useRef, useEffect }  from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
@@ -17,6 +17,7 @@ import Tab3 from './pages/Tab3';
 import { useSQLite } from 'react-sqlite-hook/dist';
 import ModalJsonMessages from './components/ModalJsonMessages';
 import { Capacitor } from '@capacitor/core';
+import { SQLiteDBConnection } from 'react-sqlite-hook/dist';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -70,21 +71,56 @@ const App: React.FC = () => {
     onProgressImport,
     onProgressExport
   });
-  if(isWeb.current) {
-    customElements.whenDefined('jeep-sqlite').then(() => {
-      const jeepSqliteEl = document.querySelector('jeep-sqlite');
-      if(jeepSqliteEl != null) {
-        console.log(`$$ jeepSqliteEl is defined}`);
-      } else {
-        console.log('$$ jeepSqliteEl is null');
-      }
-    });
-  }
   const handleClose = () => {
     setIsModal(false);
     message.current = "";
   }
-  
+  useEffect(() => {
+    const initialize = async (): Promise<Boolean> => {
+      try {
+        if(isWeb.current) {
+          await customElements.whenDefined('jeep-sqlite')
+          const jeepSqliteEl = document.querySelector('jeep-sqlite');
+          if(jeepSqliteEl != null) {
+            console.log(`isSoreOpen ${await jeepSqliteEl.isStoreOpen()}`)
+            console.log(`$$ jeepSqliteEl is defined}`);
+          } else {
+            console.log('$$ jeepSqliteEl is null');
+          }
+        }
+        let db: SQLiteDBConnection = await sqlite.createConnection("db_issue9");
+        console.log(`db ${JSON.stringify(db)}`)
+        await db.open();
+        console.log(`after db.open`)
+        let query = `
+        CREATE TABLE IF NOT EXISTS test (
+          id INTEGER PRIMARY KEY NOT NULL,
+          name TEXT NOT NULL
+        );
+        `
+        console.log(`query ${query}`)
+
+        const res: any = await db.execute(query);
+        console.log(`res: ${JSON.stringify(res)}`)
+        await db.close();
+        console.log(`after db.close`)
+        return true;
+      }
+      catch (err) {
+        console.log(`Error: ${err}`)
+        return false;
+      }
+    }
+    if(sqlite.isAvailable) {
+      initialize().then(async res => {
+        if(res) {
+          console.log(res);
+        } else {
+          console.error('failed');
+        }
+    });
+    }
+  }, []);  
   return (
   <IonApp>
     <IonReactRouter>
