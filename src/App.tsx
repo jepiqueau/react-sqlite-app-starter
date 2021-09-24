@@ -55,6 +55,7 @@ const App: React.FC = () => {
   isJsonListeners = {jsonListeners: jsonListeners, setJsonListeners: setJsonListeners};
   const [isModal,setIsModal] = useState(false);
   const message = useRef("");
+  
   const onProgressImport = async (progress: string) => {
     if(isJsonListeners.jsonListeners) {
       if(!isModal) setIsModal(true);
@@ -67,6 +68,14 @@ const App: React.FC = () => {
       message.current = message.current.concat(`${progress}\n`);
     }
   }
+  
+  // !!!!! if you do not want to use the progress events !!!!!
+  // since react-sqlite-hook 2.1.0
+  // sqlite = useSQLite()
+  // before
+  // sqlite = useSQLite({})
+  // !!!!!                                               !!!!!
+
   sqlite = useSQLite({
     onProgressImport,
     onProgressExport
@@ -82,7 +91,9 @@ const App: React.FC = () => {
           await customElements.whenDefined('jeep-sqlite')
           const jeepSqliteEl = document.querySelector('jeep-sqlite');
           if(jeepSqliteEl != null) {
-            console.log(`isSoreOpen ${await jeepSqliteEl.isStoreOpen()}`)
+            // Initialize the Web Store since @capacitor-community/sqlite@3.2.3-1
+            await sqlite.initWebStore();
+            console.log(`isSoreOpen ${await jeepSqliteEl.isStoreOpen()}`);
             console.log(`$$ jeepSqliteEl is defined}`);
           } else {
             console.log('$$ jeepSqliteEl is null');
@@ -101,13 +112,14 @@ const App: React.FC = () => {
         console.log(`query ${query}`)
 
         const res: any = await db.execute(query);
-        console.log(`res: ${JSON.stringify(res)}`)
+        console.log(`res: ${JSON.stringify(res)}`);
         await db.close();
-        console.log(`after db.close`)
+        console.log(`after db.close`);
+        await sqlite.closeConnection("db_issue9"); 
         return true;
       }
       catch (err) {
-        console.log(`Error: ${err}`)
+        console.log(`Error: ${err}`);
         return false;
       }
     }

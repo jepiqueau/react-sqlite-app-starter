@@ -75,6 +75,7 @@ const ExistingConnection: React.FC = () => {
                 // test retrieve all connections
                 var retDict: Map<string, any> = await 
                                     sqlite.retrieveAllConnections();
+                console.log(`retDict ${JSON.stringify(retDict)}`)
                 if(retDict.size !== 2) {
                     errMess.current = `retrieveAllConnections not returning 2 values`;
                     return false;
@@ -87,6 +88,7 @@ const ExistingConnection: React.FC = () => {
                     errMess.current = `retrieveAllConnections not returning "testSet"`;
                     return false;
                 }
+                
                 // close all connections
                 sqlite.closeAllConnections();
 

@@ -8,6 +8,11 @@
   "license": "MIT",
   "dependencies": {
     "@capacitor-community/electron": "^4.0.3",
+    "@capacitor/android": "^3.2.3",
+    "@capacitor/core": "^3.2.3",
+    "@capacitor/dialog": "^1.0.2",
+    "@capacitor/ios": "^3.2.3",
+    "@capacitor/toast": "^1.0.2",
     "@ionic/pwa-elements": "^3.0.2",
     "@ionic/react": "latest",
     "@ionic/react-router": "latest",
@@ -21,7 +26,6 @@
     "@types/react-router": "latest",
     "@types/react-router-dom": "latest",
     "ionicons": "latest",
-    "jeep-sqlite": "^1.2.1",
     "react": "latest",
     "react-dom": "latest",
     "react-modal": "latest",
@@ -54,15 +58,11 @@
     ]
   },
   "devDependencies": {
-    "@capacitor-community/sqlite": "^3.2.2-3",
-    "@capacitor/android": "^3.2.2",
-    "@capacitor/cli": "^3.2.2",
-    "@capacitor/core": "^3.2.2",
-    "@capacitor/dialog": "^1.0.2",
-    "@capacitor/ios": "^3.2.2",
-    "@capacitor/toast": "^1.0.2",
+    "@capacitor-community/sqlite": "^3.2.3-1",
+    "@capacitor/cli": "^3.2.3",
     "@types/react-modal": "^3.12.0",
-    "react-sqlite-hook": "^2.0.6"
+    "jeep-sqlite": "^1.3.0",
+    "react-sqlite-hook": "^2.1.0"
   },
   "repository": {
     "type": "git",
