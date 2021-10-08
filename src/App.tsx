@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect }  from 'react';
+import React, { useState, useRef }  from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
@@ -16,8 +16,6 @@ import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 import { useSQLite } from 'react-sqlite-hook/dist';
 import ModalJsonMessages from './components/ModalJsonMessages';
-import { Capacitor } from '@capacitor/core';
-import { SQLiteDBConnection } from 'react-sqlite-hook/dist';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -47,8 +45,6 @@ export let existingConn: any;
 export let isJsonListeners: any;
 
 const App: React.FC = () => {
-  const platform = Capacitor.getPlatform();
-  const isWeb = useRef(platform === 'web' ? true : false);
   const [existConn, setExistConn] = useState(false);
   existingConn = {existConn: existConn, setExistConn: setExistConn};
   const [jsonListeners, setJsonListeners] = useState(false);
@@ -84,55 +80,7 @@ const App: React.FC = () => {
     setIsModal(false);
     message.current = "";
   }
-  useEffect(() => {
-    const initialize = async (): Promise<Boolean> => {
-      try {
-        if(isWeb.current) {
-          await customElements.whenDefined('jeep-sqlite')
-          const jeepSqliteEl = document.querySelector('jeep-sqlite');
-          if(jeepSqliteEl != null) {
-            // Initialize the Web Store since @capacitor-community/sqlite@3.2.3-1
-            await sqlite.initWebStore();
-            console.log(`isSoreOpen ${await jeepSqliteEl.isStoreOpen()}`);
-            console.log(`$$ jeepSqliteEl is defined}`);
-          } else {
-            console.log('$$ jeepSqliteEl is null');
-          }
-        }
-        let db: SQLiteDBConnection = await sqlite.createConnection("db_issue9");
-        console.log(`db ${JSON.stringify(db)}`)
-        await db.open();
-        console.log(`after db.open`)
-        let query = `
-        CREATE TABLE IF NOT EXISTS test (
-          id INTEGER PRIMARY KEY NOT NULL,
-          name TEXT NOT NULL
-        );
-        `
-        console.log(`query ${query}`)
 
-        const res: any = await db.execute(query);
-        console.log(`res: ${JSON.stringify(res)}`);
-        await db.close();
-        console.log(`after db.close`);
-        await sqlite.closeConnection("db_issue9"); 
-        return true;
-      }
-      catch (err) {
-        console.log(`Error: ${err}`);
-        return false;
-      }
-    }
-    if(sqlite.isAvailable) {
-      initialize().then(async res => {
-        if(res) {
-          console.log(res);
-        } else {
-          console.error('failed');
-        }
-    });
-    }
-  }, []);  
   return (
   <IonApp>
     <IonReactRouter>
@@ -161,10 +109,6 @@ const App: React.FC = () => {
     </IonReactRouter>
     { isModal
       ? <ModalJsonMessages close={handleClose} message={message.current}></ModalJsonMessages>
-      : null
-    }
-    { isWeb
-      ? <jeep-sqlite></jeep-sqlite>
       : null
     }
   </IonApp>
