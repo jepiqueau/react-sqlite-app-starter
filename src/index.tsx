@@ -28,32 +28,31 @@ window.addEventListener('DOMContentLoaded', async () => {
   const sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite)
   try {
     if(platform === "web") {
-      console.log('in index.ts')
       const jeepEl = document.createElement("jeep-sqlite");
       document.body.appendChild(jeepEl);
       await customElements.whenDefined('jeep-sqlite');
-      console.log('in index.ts after customElements')
       await sqlite.initWebStore();
-      console.log('after sqlite.initWebStore()');   
     }
-    await sqlite.checkConnectionsConsistency();
+    const ret = await sqlite.checkConnectionsConsistency();
+    const isConn = (await sqlite.isConnection("db_issue9")).result;
+    var db: SQLiteDBConnection
+    if (ret.result && isConn) {
+      db = await sqlite.retrieveConnection("db_issue9");
+    } else {
+      db = await sqlite.createConnection("db_issue9", false, "no-encryption", 1);
+    }
 
-    let db: SQLiteDBConnection = await sqlite.createConnection("db_issue9", false, "no-encryption", 1);
-    console.log(`db ${JSON.stringify(db)}`)
     await db.open();
-    console.log(`after db.open`)
     let query = `
     CREATE TABLE IF NOT EXISTS test (
       id INTEGER PRIMARY KEY NOT NULL,
       name TEXT NOT NULL
     );
     `
-    console.log(`query ${query}`)
 
     const res: any = await db.execute(query);
     console.log(`res: ${JSON.stringify(res)}`);
     await db.close();
-    console.log(`after db.close`);
     await sqlite.closeConnection("db_issue9");
     
     ReactDOM.render(

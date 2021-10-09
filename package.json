@@ -1,6 +1,6 @@
 {
   "name": "react-sqlite-app-starter",
-  "version": "3.2.3-2",
+  "version": "3.2.3",
   "private": true,
   "description": "Ionic/React SQLite Application Starter",
   "homepage": "./",
@@ -58,7 +58,7 @@
     ]
   },
   "devDependencies": {
-    "@capacitor-community/sqlite": "^3.2.3-1",
+    "@capacitor-community/sqlite": "^3.2.3",
     "@capacitor/cli": "^3.2.3",
     "@types/react-modal": "^3.12.0",
     "jeep-sqlite": "^1.3.0",

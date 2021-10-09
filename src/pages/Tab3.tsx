@@ -11,8 +11,6 @@ const Tab3: React.FC = () => {
     const initialize = async (): Promise<Boolean> => {
       console.log('in Tab3 initialize')
       try {
-        const jeepEl = document.querySelector("jeep-sqlite")
-        console.log(`jeepEl ${jeepEl}`)
         let db: SQLiteDBConnection = await sqlite.createConnection("db_issue9");
         await db.open();
         let randomText = (Math.random() + 1).toString(36).substring(7);
