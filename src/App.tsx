@@ -14,7 +14,7 @@ import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
-import { useSQLite } from 'react-sqlite-hook/dist';
+import { SQLiteHook, useSQLite } from 'react-sqlite-hook/dist';
 import ModalJsonMessages from './components/ModalJsonMessages';
 
 /* Core CSS required for Ionic components to work properly */
@@ -37,12 +37,21 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 
+interface JsonListenerInterface {
+  jsonListeners: boolean,
+  setJsonListeners: React.Dispatch<React.SetStateAction<boolean>>,
+}
+interface existingConnInterface {
+  existConn: boolean,
+  setExistConn: React.Dispatch<React.SetStateAction<boolean>>,
+}
+
 // Singleton SQLite Hook
-export let sqlite: any;
+export let sqlite: SQLiteHook;
 // Existing Connections Store
-export let existingConn: any;
+export let existingConn: existingConnInterface;
 // Is Json Listeners used
-export let isJsonListeners: any;
+export let isJsonListeners: JsonListenerInterface;
 
 const App: React.FC = () => {
   const [existConn, setExistConn] = useState(false);
