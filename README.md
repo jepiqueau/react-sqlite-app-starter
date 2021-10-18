@@ -1,9 +1,9 @@
 <p align="center"><br><img src="https://avatars3.githubusercontent.com/u/16580653?v=4" width="128" height="128" /></p>
 
 <h3 align="center">Ionic/React SQLite App Starter</h3>
-<p align="center"><strong><code>react-sqlite-app-starter@next</code></strong></p><br>
+<p align="center"><strong><code>react-sqlite-app-starter</code></strong></p><br>
 <p align="center">
-  A Ionic/React application demonstrating the use of the <strong><code>@capacitor-community/sqlite@next</code></strong> plugin and may be use as an application starter.
+  A Ionic/React application demonstrating the use of the <strong><code>@capacitor-community/sqlite@latest</code></strong> plugin and may be use as an application starter.
 
 </p>
 
