@@ -10,6 +10,7 @@ import TestJsonImportExport from '../components/TestJsonImportExport';
 import CopyFromAssets from '../components/CopyFromAssets';
 import TestListeners from '../components/TestListeners';
 import TestIssue184 from '../components/TestIssue184';
+import MigrateDB  from '../components/MigrateDB';
 
 import './Tab2.css';
 import { existingConn } from '../App';
@@ -72,6 +73,9 @@ const Tab2: React.FC = (props) => {
           <IonItem>
             <IonButton onClick={() => startTest("TestIssue184")} expand="block">Test Issue184</IonButton>
           </IonItem>
+          <IonItem>
+            <IonButton onClick={() => startTest("TestMigrateDB")} expand="block">Test Migrate DB</IonButton>
+          </IonItem>
        </IonList>
         {start === "NoEncryption" && <NoEncryption></NoEncryption>}
         {start === "Test2dbs" && <Test2dbs></Test2dbs>}
@@ -82,6 +86,7 @@ const Tab2: React.FC = (props) => {
         {start === "CopyFromAssets" && <CopyFromAssets></CopyFromAssets>}
         {start === "ImportExportListeners" && <TestListeners></TestListeners>}
         {start === "TestIssue184" && <TestIssue184></TestIssue184>}
+        {start === "TestMigrateDB" && <MigrateDB></MigrateDB>}
       </IonContent>
     </IonPage>
   );
