@@ -4,7 +4,7 @@ import { IonCard,IonCardContent } from '@ionic/react';
 import { createSchemaVersion1, twoUsers, createSchemaVersion2,
     setArrayVersion2, userMessages } from '../Utils/upgradeVersionUtils';
 
-import { SQLiteDBConnection } from 'react-sqlite-hook/dist';
+import { SQLiteDBConnection } from 'react-sqlite-hook';
       
 import { sqlite } from '../App';
 import { deleteDatabase } from '../Utils/deleteDBUtil';     

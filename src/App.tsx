@@ -14,7 +14,7 @@ import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
-import { SQLiteHook, useSQLite } from 'react-sqlite-hook/dist';
+import { SQLiteHook, useSQLite } from 'react-sqlite-hook';
 import ModalJsonMessages from './components/ModalJsonMessages';
 
 /* Core CSS required for Ionic components to work properly */

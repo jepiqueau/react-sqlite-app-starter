@@ -3,7 +3,7 @@ import './CopyFromAssets.css';
 import { IonCard,IonCardContent } from '@ionic/react';
    
 import { sqlite } from '../App';
-import { SQLiteDBConnection } from 'react-sqlite-hook/dist';
+import { SQLiteDBConnection } from 'react-sqlite-hook';
 import { Dialog } from '@capacitor/dialog';
     
 const CopyFromAssets: React.FC = () => {

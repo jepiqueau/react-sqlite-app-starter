@@ -5,7 +5,7 @@ import { createTablesNoEncryption, importTwoUsers,
         dropTablesTablesNoEncryption } from '../Utils/noEncryptionUtils';
       
 import { sqlite } from '../App';
-import { SQLiteDBConnection} from 'react-sqlite-hook/dist';
+import { SQLiteDBConnection} from 'react-sqlite-hook';
 import { deleteDatabase } from '../Utils/deleteDBUtil';     
 import { Dialog } from '@capacitor/dialog';
 

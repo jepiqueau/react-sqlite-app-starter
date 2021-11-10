@@ -4,7 +4,7 @@ import { IonCard,IonCardContent } from '@ionic/react';
 import { createSchema112, firstTeachers, partialImport112 } from '../Utils/importJsonUtils';
     
 import { sqlite, isJsonListeners } from '../App';
-import { SQLiteDBConnection } from 'react-sqlite-hook/dist';
+import { SQLiteDBConnection } from 'react-sqlite-hook';
 import { deleteDatabase } from '../Utils/deleteDBUtil';
 import { Dialog } from '@capacitor/dialog';
 

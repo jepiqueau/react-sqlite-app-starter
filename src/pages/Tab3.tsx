@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import './Tab3.css';
-import { SQLiteDBConnection } from 'react-sqlite-hook/dist';
+import { SQLiteDBConnection } from 'react-sqlite-hook';
 import { sqlite } from '../App';
 
 const Tab3: React.FC = () => {
