@@ -15,6 +15,7 @@ import MigrateDB  from '../components/MigrateDB';
 import './Tab2.css';
 import { existingConn } from '../App';
 import { sqlite } from '../App';
+import NonConformedDB from '../components/NonConformedDB';
 
 const Tab2: React.FC = (props) => {
   const [start, setStart] = useState("");
@@ -73,9 +74,17 @@ const Tab2: React.FC = (props) => {
           <IonItem>
             <IonButton onClick={() => startTest("TestIssue184")} expand="block">Test Issue184</IonButton>
           </IonItem>
-          <IonItem>
-            <IonButton onClick={() => startTest("TestMigrateDB")} expand="block">Test Migrate DB</IonButton>
-          </IonItem>
+          {isNative &&
+            <IonItem>
+              <IonButton onClick={() => startTest("TestMigrateDB")} expand="block">Test Migrate DB</IonButton>
+            </IonItem>
+          }
+          {isNative &&
+            <IonItem>
+              <IonButton onClick={() => startTest("TestNCDatabase")} expand="block">Test NC Database</IonButton>
+            </IonItem>
+          }
+
        </IonList>
         {start === "NoEncryption" && <NoEncryption></NoEncryption>}
         {start === "Test2dbs" && <Test2dbs></Test2dbs>}
@@ -87,6 +96,7 @@ const Tab2: React.FC = (props) => {
         {start === "ImportExportListeners" && <TestListeners></TestListeners>}
         {start === "TestIssue184" && <TestIssue184></TestIssue184>}
         {start === "TestMigrateDB" && <MigrateDB></MigrateDB>}
+        {start === "TestNCDatabase" && <NonConformedDB></NonConformedDB>}
       </IonContent>
     </IonPage>
   );

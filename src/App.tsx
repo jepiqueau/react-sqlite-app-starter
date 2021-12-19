@@ -7,7 +7,8 @@ import {
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
-  IonTabs
+  IonTabs,
+  setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
@@ -52,6 +53,8 @@ export let sqlite: SQLiteHook;
 export let existingConn: existingConnInterface;
 // Is Json Listeners used
 export let isJsonListeners: JsonListenerInterface;
+
+setupIonicReact();
 
 const App: React.FC = () => {
   const [existConn, setExistConn] = useState(false);
