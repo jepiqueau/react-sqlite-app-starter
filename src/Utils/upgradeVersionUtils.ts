@@ -6,13 +6,14 @@ CREATE TABLE IF NOT EXISTS users (
     company TEXT,
     size FLOAT,
     age INTEGER,
-    last_modified INTEGER DEFAULT (strftime('%s', 'now'))    
+    sql_deleted BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1)),
+    last_modified INTEGER DEFAULT (strftime('%s', 'now'))
 );
 CREATE INDEX IF NOT EXISTS users_index_name ON users (name);
 CREATE INDEX IF NOT EXISTS users_index_last_modified ON users (last_modified);
 CREATE TRIGGER IF NOT EXISTS users_trigger_last_modified
 AFTER UPDATE ON users
-FOR EACH ROW WHEN NEW.last_modified <= OLD.last_modified
+FOR EACH ROW WHEN NEW.last_modified < OLD.last_modified
 BEGIN
     UPDATE users SET last_modified= (strftime('%s', 'now')) WHERE id=OLD.id;
 END;
@@ -32,14 +33,16 @@ CREATE TABLE users (
   company TEXT,
   country TEXT,
   age INTEGER,
-  last_modified INTEGER DEFAULT (strftime('%s', 'now'))       
+  sql_deleted BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1)),
+  last_modified INTEGER DEFAULT (strftime('%s', 'now'))
 );
 CREATE TABLE messages (
   id INTEGER PRIMARY KEY NOT NULL,
   userid INTEGER,
   title TEXT NOT NULL,
   body TEXT NOT NULL,
-  last_modified INTEGER DEFAULT (strftime('%s', 'now')),        
+  sql_deleted BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1)),
+  last_modified INTEGER DEFAULT (strftime('%s', 'now')),
   FOREIGN KEY (userid) REFERENCES users(id) ON DELETE SET DEFAULT
 );
 CREATE INDEX users_index_name ON users (name);
@@ -48,13 +51,13 @@ CREATE INDEX messages_index_title ON messages (title);
 CREATE INDEX messages_index_last_modified ON messages (last_modified);
 CREATE TRIGGER users_trigger_last_modified
 AFTER UPDATE ON users
-FOR EACH ROW WHEN NEW.last_modified <= OLD.last_modified
+FOR EACH ROW WHEN NEW.last_modified < OLD.last_modified
 BEGIN
     UPDATE users SET last_modified= (strftime('%s', 'now')) WHERE id=OLD.id;
 END;
 CREATE TRIGGER messages_trigger_last_modified
 AFTER UPDATE ON messages
-FOR EACH ROW WHEN NEW.last_modified <= OLD.last_modified
+FOR EACH ROW WHEN NEW.last_modified < OLD.last_modified
 BEGIN
     UPDATE messages SET last_modified= (strftime('%s', 'now')) WHERE id=OLD.id;
 END;

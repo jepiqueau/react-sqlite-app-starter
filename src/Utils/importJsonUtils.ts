@@ -13,7 +13,8 @@ export const dataToImport: any = {
                 {column:"email", value:"TEXT UNIQUE NOT NULL"},
                 {column:"name", value:"TEXT"},
                 {column:"age", value:"INTEGER"},
-                {column:"last_modified", value:"INTEGER"}
+                {column:'sql_deleted', value:'BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1))'},
+                {column:'last_modified', value:'INTEGER DEFAULT (strftime(\'%s\', \'now\'))'}
             ],
             indexes: [
                 {name: "index_user_on_name",value: "name"},
@@ -21,10 +22,10 @@ export const dataToImport: any = {
                 {name: "index_user_on_email_name", value: "email ASC, name", mode: "UNIQUE"}
             ],
             values: [
-                [1,"Whiteley.com","Whiteley",30,1582536810],
-                [2,"Jones.com","Jones",44,1582812800],
-                [3,"Simpson@example.com","Simpson",69,1583570630],
-                [4,"Brown@example.com","Brown",15,1590383895]
+                [1,"Whiteley.com","Whiteley",30,0,1582536810],
+                [2,"Jones.com","Jones",44,0,1582812800],
+                [3,"Simpson@example.com","Simpson",69,0,1583570630],
+                [4,"Brown@example.com","Brown",15,0,1590383895]
             ]
         },
         {
@@ -33,11 +34,12 @@ export const dataToImport: any = {
             {column:"id", value: "INTEGER PRIMARY KEY NOT NULL"},
             {column:"title", value:"TEXT NOT NULL"},
             {column:"body", value:"TEXT NOT NULL"},
-            {column:"last_modified", value:"INTEGER"}
-          ],
+            {column:'sql_deleted', value:'BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1))'},
+            {column:'last_modified', value:'INTEGER DEFAULT (strftime(\'%s\', \'now\'))'}
+      ],
           values: [
-              [1,"test post 1","content test post 1",1587310030],
-              [2,"test post 2","content test post 2",1590388125]
+              [1,"test post 1","content test post 1",0,1587310030],
+              [2,"test post 2","content test post 2",0,1590388125]
           ]
         },
         {
@@ -48,11 +50,12 @@ export const dataToImport: any = {
             {column:"type", value:"TEXT NOT NULL"},
             {column:"size", value:"INTEGER"},
             {column:"img", value:"BLOB"},
-            {column:"last_modified", value:"INTEGER"}
+            {column:'sql_deleted', value:'BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1))'},
+            {column:'last_modified', value:'INTEGER DEFAULT (strftime(\'%s\', \'now\'))'}
           ],
           values: [
-            [1,"feather","png","NULL",Images[1],1582536810],
-            [2,"meowth","png","NULL",Images[0],1590151132]
+            [1,"feather","png",null,Images[1],0,1582536810],
+            [2,"meowth","png",null,Images[0],0,1590151132]
           ]
         }
 
@@ -67,9 +70,9 @@ export const partialImport1: any = {
         {
             name: "users",
             values: [
-                [5,"Addington.com","Addington",22,1590388335],
-                [6,"Bannister.com","Bannister",59,1590393015],
-                [2,"Jones@example.com","Jones",45,1590393325]
+                [5,"Addington.com","Addington",22,0,1590388335],
+                [6,"Bannister.com","Bannister",59,0,1590393015],
+                [2,"Jones@example.com","Jones",45,0,1590393325]
 
             ]
         },
@@ -81,8 +84,8 @@ export const partialImport1: any = {
 
           ],
           values: [
-              [3,"test post 3","content test post 3",1590396146],
-              [4,"test post 4","content test post 4",1590396288]
+              [3,"test post 3","content test post 3",0,1590396146],
+              [4,"test post 4","content test post 4",0,1590396288]
           ]
         }
 
@@ -103,16 +106,17 @@ export const dataToImport59: any = {
               {column:"code", value:"TEXT"},
               {column:"language", value:"TEXT"},
               {column:"phone_code", value:"TEXT"},
-              {column:"last_modified", value:"INTEGER"}
+              {column:'sql_deleted', value:'BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1))'},
+              {column:'last_modified', value:'INTEGER DEFAULT (strftime(\'%s\', \'now\'))'}
           ],
           indexes: [
               {name: "index_country_on_name",value: "name"},
               {name: "index_country_on_last_modified",value: "last_modified DESC"}
           ],
           values: [
-              ["3","Afghanistan","AF","fa","93",1608216034],
-              ["6","Albania","AL","sq","355",1608216034],
-              ["56","Algeria","DZ","ar","213",1608216034],
+              ["3","Afghanistan","AF","fa","93",0,1608216034],
+              ["6","Albania","AL","sq","355",0,1608216034],
+              ["56","Algeria","DZ","ar","213",0,1608216034],
           ]
       },
       {
@@ -132,12 +136,24 @@ export const dataToImport59: any = {
           {column:"organization", value:"TEXT"},
           {column:"comment_id", value:"TEXT"},
           {column:"country_id", value:"TEXT NOT NULL"},
-          {column:"last_modified", value:"INTEGER"},
+          {column:'sql_deleted', value:'BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1))'},
+          {column:'last_modified', value:'INTEGER DEFAULT (strftime(\'%s\', \'now\'))'},
           {foreignkey: "country_id", value:"REFERENCES countries(id) ON DELETE CASCADE"}
         ],
+        indexes: [
+          {name: "index_customers_on_email",value: "email", mode: "UNIQUE"},
+          {name: "index_customers_on_last_modified",value: "last_modified DESC"}
+        ],
+        triggers: [
+          {
+            name: "validate_email_before_insert_customers",
+            timeevent: "BEFORE INSERT",
+            logic: "BEGIN SELECT CASE WHEN NEW.email NOT LIKE '%_@__%.__%' THEN RAISE (ABORT,'Invalid email address') END; END"
+          }
+        ],
         values: [
-            ["3","William","Jones","1","peterjones@mail.com<peterjones@mail.com>","420305202","1234567","1983-01-04","2020-11-1212:39:02","3","2020-11-19 05:10:10","1","NULL","3",1608216040],
-            ["1","Alexander","Brown","1","alexanderbrown@mail.com<alexanderbrown@mail.com>","420305203","1234572","1990-02-07","2020-12-1210:35:15","1","2020-11-19 05:10:10","2","NULL","6",1608216040]
+            ["3","William","Jones","1","peterjones@mail.com<peterjones@mail.com>","420305202","1234567","1983-01-04","2020-11-1212:39:02","3","2020-11-19 05:10:10","1",null,"3",0,1608216040],
+            ["1","Alexander","Brown","1","alexanderbrown@mail.com<alexanderbrown@mail.com>","420305203","1234572","1990-02-07","2020-12-1210:35:15","1","2020-11-19 05:10:10","2",null,"6",0,1608216040]
         ]
       }
   ]
@@ -157,11 +173,12 @@ export const dataToImport2: any = {
           {column:"type", value:"TEXT NOT NULL"},
           {column:"size", value:"INTEGER"},
           {column:"img", value:"BLOB"},
-          {column:"last_modified", value:"INTEGER"}
+          {column:'sql_deleted', value:'BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1))'},
+          {column:'last_modified', value:'INTEGER DEFAULT (strftime(\'%s\', \'now\'))'}
         ],
         values: [
-          [1,"feather","png","NULL",Images[1],1582536810],
-          [2,"meowth","png","NULL",Images[0],1590151132]
+          [1,"feather","png",null,Images[1],0,1582536810],
+          [2,"meowth","png",null,Images[0],0,1590151132]
         ]
       }
 
@@ -177,13 +194,14 @@ CREATE TABLE IF NOT EXISTS teachers (
     age INT,
     phone DECIMAL(11,0),
     birth_date DATE,
+    sql_deleted BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1)),
     last_modified INTEGER DEFAULT (strftime('%s', 'now'))
 );
 CREATE INDEX IF NOT EXISTS teachers_index_email ON teachers (email);
 CREATE INDEX IF NOT EXISTS teachers_index_last_modified ON teachers (last_modified);
 CREATE TRIGGER IF NOT EXISTS teachers_trigger_last_modified
 AFTER UPDATE ON teachers
-FOR EACH ROW WHEN NEW.last_modified <= OLD.last_modified
+FOR EACH ROW WHEN NEW.last_modified < OLD.last_modified
 BEGIN
     UPDATE teachers SET last_modified= (strftime('%s', 'now')) WHERE id=OLD.id;
 END;
@@ -221,26 +239,26 @@ export const partialImport112: any = {
         {
             name: "teachers",
             values: [
-              [21,"name21@example.com","Name21",null,null,null,null,null,1618634218],
-              [22,"name22@example.com","Name22",null,null,null,null,null,1618644218],
-              [23,"name23@example.com","Name23",null,null,null,null,null,1618654218],
-              [24,"name24@example.com","Name24",null,null,null,null,null,1618634218],
-              [25,"name25@example.com","Name25",null,null,null,null,null,1618644218],
-              [26,"name26@example.com","Name26",null,null,null,null,null,1618654218],
-              [27,"name27@example.com","Name27",null,null,null,null,null,1618634218],
-              [28,"name28@example.com","Name28",null,null,null,null,null,1618644218],
-              [29,"name29@example.com","Name29",null,null,null,null,null,1618654218],
-              [30,"name30@example.com","Name30",null,null,null,null,null,1618654218],
-              [31,"name31@example.com","Name31",null,null,null,44903671234,null,1618634218],
-              [32,"name32@example.com","Name32","AVD",null,null,null,null,1618644218],
-              [33,"name33@example.com","Name33","BKC",null,43,31671424567,"1978-12-03",1618654218],
-              [34,"name34@example.com","Name34",null,null,null,44905671134,null,1618634218],
-              [35,"name35@example.com","Name35","CBN",null,null,null,null,1618644218],
-              [36,"name36@example.com","Name36","KWK",null,52,31671434467,"1969-08-20",1618654218],
-              [37,"name37@example.com","Name37",null,null,null,44905671235,null,1618634218],
-              [38,"name38@example.com","Name38","CDK",null,null,null,null,1618644218],
-              [39,"name39@example.com","Name39","ZWK",null,42,null,"1979-02-03",1618654218],
-              [40,"name40@example.com","Name40","PNC",null,47,31671434568,"1974-06-02",1618654218],
+              [21,"name21@example.com","Name21",null,null,null,null,null,0,1618634218],
+              [22,"name22@example.com","Name22",null,null,null,null,null,0,1618644218],
+              [23,"name23@example.com","Name23",null,null,null,null,null,0,1618654218],
+              [24,"name24@example.com","Name24",null,null,null,null,null,0,1618634218],
+              [25,"name25@example.com","Name25",null,null,null,null,null,0,1618644218],
+              [26,"name26@example.com","Name26",null,null,null,null,null,0,1618654218],
+              [27,"name27@example.com","Name27",null,null,null,null,null,0,1618634218],
+              [28,"name28@example.com","Name28",null,null,null,null,null,0,1618644218],
+              [29,"name29@example.com","Name29",null,null,null,null,null,0,1618654218],
+              [30,"name30@example.com","Name30",null,null,null,null,null,0,1618654218],
+              [31,"name31@example.com","Name31",null,null,null,44903671234,null,0,1618634218],
+              [32,"name32@example.com","Name32","AVD",null,null,null,null,0,1618644218],
+              [33,"name33@example.com","Name33","BKC",null,43,31671424567,"1978-12-03",0,1618654218],
+              [34,"name34@example.com","Name34",null,null,null,44905671134,null,0,1618634218],
+              [35,"name35@example.com","Name35","CBN",null,null,null,null,0,1618644218],
+              [36,"name36@example.com","Name36","KWK",null,52,31671434467,"1969-08-20",0,1618654218],
+              [37,"name37@example.com","Name37",null,null,null,44905671235,null,0,1618634218],
+              [38,"name38@example.com","Name38","CDK",null,null,null,null,0,1618644218],
+              [39,"name39@example.com","Name39","ZWK",null,42,null,"1979-02-03",0,1618654218],
+              [40,"name40@example.com","Name40","PNC",null,47,31671434568,"1974-06-02",0,1618654218],
             ]
         },
         {
@@ -252,7 +270,8 @@ export const partialImport112: any = {
                 {column:"timeStart", value:"FLOAT"},
                 {column:"timeEnd", value:"FLOAT"},
                 {column:"teacherId", value:"INTEGER"},
-                {column:"last_modified", value:"INTEGER"},
+                {column:'sql_deleted', value:'BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1))'},
+                {column:'last_modified', value:'INTEGER DEFAULT (strftime(\'%s\', \'now\'))'},
                 {foreignkey: "teacherId", value:"REFERENCES teachers(id) ON DELETE CASCADE"}
             ],
             indexes: [
@@ -263,22 +282,22 @@ export const partialImport112: any = {
                 {
                   name: "classes_trigger_last_modified",
                   timeevent: "AFTER UPDATE",
-                  logic: "FOR EACH ROW WHEN NEW.last_modified <= OLD.last_modified BEGIN UPDATE images SET last_modified= (strftime('%s', 'now')) WHERE id=OLD.id;END;"
+                  logic: "FOR EACH ROW WHEN NEW.last_modified < OLD.last_modified BEGIN UPDATE images SET last_modified= (strftime('%s', 'now')) WHERE id=OLD.id;END;"
                 }
             ],
             values: [
-                [1,1,"Monday",8.30,10.00,1,1618634218],
-                [2,2,"Wednesday",14.00,15.00,2,1618634218],
-                [3,1,"Friday",10.00,12.00,1,1618634218],
-                [4,10,"Tuesday",8.30,10.00,10,1618634218],
-                [5,3,"Thursday",14.00,15.00,12,1618634218],
-                [6,5,"Friday",10.00,12.00,21,1618634218],
-                [7,5,"Monday",8.30,10.00,11,1618634218],
-                [8,10,"Wednesday",14.00,15.00,12,1618634218],
-                [9,3,"Friday",10.00,12.00,15,1618634218],
-                [10,1,"Monday",8.30,10.00,17,1618634218],
-                [11,2,"Wednesday",14.00,15.00,32,1618634218],
-                [12,1,"Friday",10.00,12.00,24,1618634218],
+                [1,1,"Monday",8.30,10.00,1,0,1618634218],
+                [2,2,"Wednesday",14.00,15.00,2,0,1618634218],
+                [3,1,"Friday",10.00,12.00,1,0,1618634218],
+                [4,10,"Tuesday",8.30,10.00,10,0,1618634218],
+                [5,3,"Thursday",14.00,15.00,12,0,1618634218],
+                [6,5,"Friday",10.00,12.00,21,0,1618634218],
+                [7,5,"Monday",8.30,10.00,11,0,1618634218],
+                [8,10,"Wednesday",14.00,15.00,12,0,1618634218],
+                [9,3,"Friday",10.00,12.00,15,0,1618634218],
+                [10,1,"Monday",8.30,10.00,17,0,1618634218],
+                [11,2,"Wednesday",14.00,15.00,32,0,1618634218],
+                [12,1,"Friday",10.00,12.00,24,0,1618634218],
             ]
         }
     ]

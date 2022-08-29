@@ -8,7 +8,9 @@ CREATE TABLE IF NOT EXISTS contacts (
   company TEXT,
   size REAL,
   age INTEGER,
-  MobileNumber TEXT
+  MobileNumber TEXT,
+  sql_deleted BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1)),
+  last_modified INTEGER DEFAULT (strftime('%s', 'now'))
 );
 CREATE INDEX IF NOT EXISTS contacts_index_name ON contacts (name);
 CREATE INDEX IF NOT EXISTS contacts_index_email ON contacts (email);
@@ -37,6 +39,7 @@ CREATE TABLE IF NOT EXISTS messages (
   contactid INTEGER,
   title TEXT NOT NULL,
   body TEXT NOT NULL,
+  sql_deleted BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1)),
   last_modified INTEGER DEFAULT (strftime('%s', 'now')),
   FOREIGN KEY (contactid) REFERENCES contacts(id) ON DELETE SET DEFAULT
 );
