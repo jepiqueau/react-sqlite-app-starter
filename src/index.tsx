@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
@@ -25,6 +25,7 @@ applyPolyfills().then(() => {
   jeepSqlite(window);
 });
 window.addEventListener('DOMContentLoaded', async () => {
+  console.log('$$$ in index $$$');
   const platform = Capacitor.getPlatform();
   const sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite)
   try {
@@ -35,12 +36,12 @@ window.addEventListener('DOMContentLoaded', async () => {
       await sqlite.initWebStore();
     }
     const ret = await sqlite.checkConnectionsConsistency();
-    const isConn = (await sqlite.isConnection("db_issue9")).result;
+    const isConn = (await sqlite.isConnection("db_issue9", false)).result;
     var db: SQLiteDBConnection
     if (ret.result && isConn) {
-      db = await sqlite.retrieveConnection("db_issue9");
+      db = await sqlite.retrieveConnection("db_issue9", false);
     } else {
-      db = await sqlite.createConnection("db_issue9", false, "no-encryption", 1);
+      db = await sqlite.createConnection("db_issue9", false, "no-encryption", 1, false);
     }
 
     await db.open();
@@ -54,30 +55,26 @@ window.addEventListener('DOMContentLoaded', async () => {
     const res: any = await db.execute(query);
     console.log(`res: ${JSON.stringify(res)}`);
     await db.close();
-    await sqlite.closeConnection("db_issue9");
-    
-    ReactDOM.render(
+    await sqlite.closeConnection("db_issue9", false);
+    const container = document.getElementById('root');
+    const root = createRoot(container!);
+    root.render(
       <React.StrictMode>
-        <App /> 
-      </React.StrictMode>,
-      document.getElementById('root')
+        <App />
+      </React.StrictMode>
     );
-
+    
     // If you want your app to work offline and load faster, you can change
     // unregister() to register() below. Note this comes with some pitfalls.
-    // Learn more about service workers: https://bit.ly/CRA-PWA
+    // Learn more about service workers: https://cra.link/PWA
     serviceWorkerRegistration.unregister();
+    
     // If you want to start measuring performance in your app, pass a function
     // to log results (for example: reportWebVitals(console.log))
     // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
     reportWebVitals();
-
   } catch (err) {
     console.log(`Error: ${err}`);
     throw new Error(`Error: ${err}`)
   }
-
 });
-
-
-

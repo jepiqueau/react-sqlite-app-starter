@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './NoEncryption.css';
-import { IonCard,IonCardContent } from '@ionic/react';
+import './TestEncryption.css';
+import TestOutput from './TestOutput';
 import { createTablesNoEncryption, importTwoUsers }
                             from '../Utils/noEncryptionUtils';
       
@@ -9,9 +9,11 @@ import { deleteDatabase } from '../Utils/deleteDBUtil';
 import { Dialog } from '@capacitor/dialog';
 
 const TestEncryption: React.FC = () => {
-    const [log, setLog] = useState<string[]>([]);
+    const myRef = useRef(false);
+    const myLog: string[] = [];
     const errMess = useRef("");
-    const showAlert = async (message: string) => {
+    const [output, setOutput] = useState({log: myLog});
+      const showAlert = async (message: string) => {
         await Dialog.alert({
           title: 'Error Dialog',
           message: message,
@@ -19,7 +21,9 @@ const TestEncryption: React.FC = () => {
       };
     useEffect( () => {
         const testDatabaseEncryption = async (): Promise<boolean>  => {
-            setLog((log) => log.concat("* Starting testDatabaseEncryption *\n"));
+            setOutput((output: { log: any; }) => ({log: output.log}));
+
+            myLog.push("* Starting testDatabaseEncryption *\n");
             // ************************************************
             // Create Database No Encryption
             // ************************************************
@@ -36,6 +40,7 @@ const TestEncryption: React.FC = () => {
                 console.log('$$$ ret.changes.changes in db ' + ret.changes.changes)
                 if (ret.changes.changes < 0) {
                     errMess.current = `Execute changes < 0`;
+                    setOutput(() => ({log: myLog}));
                     return false;
                 }
 
@@ -43,6 +48,7 @@ const TestEncryption: React.FC = () => {
                 ret = await db.createSyncTable();
                 if (ret.changes.changes < 0) {
                     errMess.current = `CreateSyncTable changes < 0`;
+                    setOutput(() => ({log: myLog}));
                     return false;
                 }
         
@@ -54,6 +60,7 @@ const TestEncryption: React.FC = () => {
                 ret = await db.execute(importTwoUsers);
                 if (ret.changes.changes !== 2) {
                     errMess.current = `Execute changes != 2`;
+                    setOutput(() => ({log: myLog}));
                     return false;
                 }
                 // select all users in db
@@ -61,6 +68,7 @@ const TestEncryption: React.FC = () => {
                 if(ret.values.length !== 2 || ret.values[0].name !== "Whiteley" ||
                                             ret.values[1].name !== "Jones") {
                     errMess.current = `Query not returning 2 values`;
+                    setOutput(() => ({log: myLog}));
                     return false;
                 }
 
@@ -70,6 +78,7 @@ const TestEncryption: React.FC = () => {
                                             ret.values[1].name !== "Jones") {
 
                     errMess.current = `Query not returning 2 values`;
+                    setOutput(() => ({log: myLog}));
                     return false;
                 }
                 // add one user with statement and values              
@@ -80,6 +89,7 @@ const TestEncryption: React.FC = () => {
                 console.log()
                 if(ret.changes.lastId !== 3) {
                     errMess.current = `Run lastId != 3`;
+                    setOutput(() => ({log: myLog}));
                     return false;
                 }
                 // add one user with statement              
@@ -88,6 +98,7 @@ const TestEncryption: React.FC = () => {
                 ret = await db.run(sqlcmd);
                 if(ret.changes.lastId !== 4) {
                     errMess.current = `Run lastId != 4`;
+                    setOutput(() => ({log: myLog}));
                     return false;
                 }
 
@@ -124,6 +135,7 @@ const TestEncryption: React.FC = () => {
                 console.log()
                 if(ret.changes.lastId !== 5) {
                     errMess.current = `Run lastId != 5`;
+                    setOutput(() => ({log: myLog}));
                     return false;
                 }
 
@@ -135,6 +147,7 @@ const TestEncryption: React.FC = () => {
                                             ret.values[3].name !== "Brown" ||
                                             ret.values[4].name !== "Jackson") {
                     errMess.current = `Query not returning 5 values`;
+                    setOutput(() => ({log: myLog}));
                     return false;
                 }
 
@@ -142,45 +155,41 @@ const TestEncryption: React.FC = () => {
             await deleteDatabase(db);
             
             await sqlite.closeConnection("testEncryption"); 
+            myLog.push("* Ending testDatabaseEncryption *\n");
             return true;
         } catch (err: any) {
             errMess.current = `${err.message}`;
+            setOutput(() => ({log: myLog}));
             return false;
         }
     }
     if(sqlite.isAvailable) {
-        testDatabaseEncryption().then( async res => {
-            if(res) {    
-                setLog((log) => log
-                    .concat("\n* The set of tests was successful *\n"));
-            } else {      
-                setLog((log) => log
-                    .concat("\n* The set of tests failed *\n"));
-                await showAlert(errMess.current);
-            }
-        });
+        if (myRef.current === false) {
+            myRef.current = true;
+            testDatabaseEncryption().then( async res => {
+                if(res) {    
+                    myLog.push("\n* The set of tests was successful *\n");
+                } else {
+                    myLog.push("\n* The set of tests failed *\n");
+                    await showAlert(errMess.current);
+                }
+                setOutput(() => ({log: myLog}));
+                });
+        }
     } else {
-        sqlite.getPlatform().then((ret: { platform: string; })  =>  {
-            setLog((log) => log.concat("\n* Not available for " + 
-                                ret.platform + " platform *\n"));
+        sqlite.getPlatform().then(async (ret: { platform: string; })  =>  {
+            myLog.push("\n* Not available for " + 
+                            ret.platform + " platform *\n");
+            await showAlert(errMess.current);
+            setOutput(() => ({log: myLog}));
         });         
     }
-     
-  }, [errMess]);   
 
-  
-    return (
-        <IonCard className="container-encryption">
-            <IonCardContent>
-                <pre>
-                    <p>{log}</p>
-                </pre>
-                {errMess.current.length > 0 && <p>{errMess.current}</p>}
-
-            </IonCardContent>
-        </IonCard>
-
-    );
+  });
+ 
+  return (
+    <TestOutput dataLog={output.log} errMess={errMess.current}></TestOutput> 
+  );
 };
 
 export default TestEncryption;

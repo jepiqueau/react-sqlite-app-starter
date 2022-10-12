@@ -8,15 +8,16 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
-  setupIonicReact
+  setupIonicReact,
+  useIonModal
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
+import ViewTest from './pages/ViewTest';
 import { SQLiteHook, useSQLite } from 'react-sqlite-hook';
-import ModalJsonMessages from './components/ModalJsonMessages';
 import ViewMessage from './pages/ViewMessage';
 
 /* Core CSS required for Ionic components to work properly */
@@ -59,24 +60,7 @@ setupIonicReact();
 const App: React.FC = () => {
   const [existConn, setExistConn] = useState(false);
   existingConn = {existConn: existConn, setExistConn: setExistConn};
-  const [jsonListeners, setJsonListeners] = useState(false);
-  isJsonListeners = {jsonListeners: jsonListeners, setJsonListeners: setJsonListeners};
-  const [isModal,setIsModal] = useState(false);
-  const message = useRef("");
-  
-  const onProgressImport = async (progress: string) => {
-    if(isJsonListeners.jsonListeners) {
-      if(!isModal) setIsModal(true);
-      message.current = message.current.concat(`${progress}\n`);
-    }
-  }
-  const onProgressExport = async (progress: string) => {
-    if(isJsonListeners.jsonListeners) {
-      if(!isModal) setIsModal(true);
-      message.current = message.current.concat(`${progress}\n`);
-    }
-  }
-  
+
   // !!!!! if you do not want to use the progress events !!!!!
   // since react-sqlite-hook 2.1.0
   // sqlite = useSQLite()
@@ -84,25 +68,30 @@ const App: React.FC = () => {
   // sqlite = useSQLite({})
   // !!!!!                                               !!!!!
 
-  sqlite = useSQLite({
-    onProgressImport,
-    onProgressExport
-  });
-  const handleClose = () => {
-    setIsModal(false);
-    message.current = "";
-  }
+  sqlite = useSQLite();
+  console.log(`$$$ in App sqlite.isAvailable  ${sqlite.isAvailable} $$$`);
+
 
   return (
-  <IonApp>
-    <IonReactRouter>
+    <IonApp>
+      <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route path="/tab1" component={Tab1} exact={true} />
-            <Route path="/tab2" component={Tab2} exact={true} />
-            <Route path="/tab3" component={Tab3} />
-            <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
+            <Route exact path="/tab1">
+              <Tab1 />
+            </Route>
+            <Route exact path="/tab2">
+              <Tab2 />
+            </Route>
+            <Route path="/tab3">
+              <Tab3 />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/tab1" />
+            </Route>
+            <Route path="/test/:name" component={ViewTest} />
             <Route path="/message/:id" component={ViewMessage} />
+  
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="tab1" href="/tab1">
@@ -119,13 +108,9 @@ const App: React.FC = () => {
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
-    </IonReactRouter>
-    { isModal
-      ? <ModalJsonMessages close={handleClose} message={message.current}></ModalJsonMessages>
-      : null
-    }
-  </IonApp>
-  )
+      </IonReactRouter>
+    </IonApp>
+  );
 };
 
 export default App;

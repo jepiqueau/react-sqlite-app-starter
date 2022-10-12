@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Message, getMessage } from '../data/messages';
 import {
   IonBackButton,
   IonButtons,
@@ -15,17 +14,47 @@ import {
 } from '@ionic/react';
 import { personCircle } from 'ionicons/icons';
 import { useParams } from 'react-router';
+import { Message } from '../data/messages';
+import { sqlite } from '../App';
+import { SQLiteDBConnection} from 'react-sqlite-hook';
 import './ViewMessage.css';
 
 function ViewMessage() {
   const [message, setMessage] = useState<Message>();
   const params = useParams<{ id: string }>();
 
-  useIonViewWillEnter(() => {
-    const msg = getMessage(parseInt(params.id, 10));
-    setMessage(msg);
+  useIonViewWillEnter(async () => {
+    try {
+      const msg = await getMessage(parseInt(params.id, 10));
+      setMessage(msg);
+    } catch(err) {
+      console.log(`Error: ${err}`);
+    }
   });
 
+  const getMessage = async (id: number): Promise<Message> => {
+    let message: Message = {} as Message;
+    let isConn = await sqlite.isConnection("db-messages");
+    let db: SQLiteDBConnection;
+    try {
+      if(!isConn.result) {
+        db = await sqlite.createConnection("db-messages");
+      } else {
+        db = await sqlite.retrieveConnection("db-messages");
+      }
+      db.open();
+      // query the messages
+      const stmt = `SELECT * FROM messages where id=${id}`;
+      const qValues = await db.query(stmt);
+      if (qValues && qValues.values && qValues.values.length === 1) {
+        message = qValues.values[0];
+      }
+      return Promise.resolve(message);
+    } catch (err) {
+      return Promise.reject(`Error: ${err}`);
+    }
+
+  }
   return (
     <IonPage id="view-message-page">
       <IonHeader translucent>
