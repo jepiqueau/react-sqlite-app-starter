@@ -42,7 +42,7 @@ function ViewMessage() {
       } else {
         db = await sqlite.retrieveConnection("db-messages");
       }
-      db.open();
+      await db.open();
       // query the messages
       const stmt = `SELECT * FROM messages where id=${id}`;
       const qValues = await db.query(stmt);
