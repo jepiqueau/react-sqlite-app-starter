@@ -1,5 +1,22 @@
 import { capSQLiteSet } from '@capacitor-community/sqlite';
-export const createTablesNoEncryption: string =  `
+export const createTablesNoEncryption: string =  `-- testcomments
+    CREATE TABLE IF NOT EXISTS users (
+    /*
+     * Author: jeepq
+     * Purpose: To show a comment that spans multiple lines in your SQL
+     * statement in SQLite.
+     */
+    id INTEGER PRIMARY KEY NOT NULL,
+    email TEXT UNIQUE NOT NULL, -- email as key
+    name TEXT,
+    company TEXT,
+    size FLOAT,
+    age INTEGER,
+    sql_deleted BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1)),
+    last_modified INTEGER DEFAULT (strftime('%s', 'now'))
+    );
+`;
+export const createTablesNoEncryption1: string =  `
     CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY NOT NULL,
     email TEXT UNIQUE NOT NULL,

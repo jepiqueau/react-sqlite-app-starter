@@ -3,7 +3,7 @@ import TestOutput from './TestOutput';
 import './NoEncryption.css';
 import { sqlite } from '../App';
 import { SQLiteDBConnection} from 'react-sqlite-hook';
-import { createTablesNoEncryption, importTwoUsers,
+import { createTablesNoEncryption, createTablesNoEncryption1, importTwoUsers,
   dropTablesTablesNoEncryption } from '../Utils/noEncryptionUtils';
 import { deleteDatabase } from '../Utils/deleteDBUtil';     
 import { Dialog } from '@capacitor/dialog';
@@ -55,7 +55,14 @@ const NoEncryption: React.FC = () => {
         myLog.push("> Execute1 successful\n");
         
         // Create tables
+        console.log(`@@@@ createTablesNoEncryption: ${createTablesNoEncryption}`);
         res = await db.execute(createTablesNoEncryption);
+        if (res.changes.changes < 0) {
+            errMess.current = `Execute createTablesNoEncryption changes < 0`;
+            setOutput(() => ({log: myLog}));
+            return false;
+        }
+        res = await db.execute(createTablesNoEncryption1);
         if (res.changes.changes < 0) {
             errMess.current = `Execute createTablesNoEncryption changes < 0`;
             setOutput(() => ({log: myLog}));

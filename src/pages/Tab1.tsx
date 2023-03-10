@@ -11,6 +11,8 @@ const Tab1: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   useIonViewWillEnter(async () => {
+    console.log(`in useIonViewWillEnter`)
+
     try {
       // check if database "db-messages" exists
       const isDB = (await sqlite.isDatabase('db-messages')).result;
@@ -54,7 +56,17 @@ const Tab1: React.FC = () => {
         const db: SQLiteDBConnection = await sqlite.createConnection("db-messages");
         await db.open();
         // query the messages
-        const qValues = await db.query("SELECT * FROM messages");
+        const cmd = `--test comments
+          SELECT *
+          /*
+          * Author: jeepq
+          * Purpose: To show a comment that spans multiple lines in your SQL
+          * statement in SQLite.
+          */
+          FROM messages;
+        `;
+        console.log(`&&&& cmd: ${cmd}`);
+        const qValues = await db.query(cmd);
         const msgs = qValues.values
         if(msgs != null) {
           setMessages(msgs);            
